@@ -3,14 +3,14 @@
 # 目錄
 
 - [簡介](#簡介)
-- [0.算法與資料結構](#0.算法與資料結構)
-- [1.AI,ML](#1.AI,ML)
-- [2.DL](#2.DL,MLOps)
-- [3.LLM基礎](#3.LLM基礎,LLMOps)
-- [4.LLM模型工程](#4.LLM模型工程)
+- [算法與資料結構](#算法與資料結構)
+- [從AI到LLM基礎](#從ai到llm基礎)
+- [LLM模型工程與LLMOps](#llm模型工程llmops)
 - [5.LLM應用工程](#5.LLM應用工程)
 - [6.相關的更新Blog](#6.相關的更新Blog)
 - [7.DeepLearning.ai短課程學習紀錄](#7.DeepLearning.ai短課程學習紀錄)
+
+![cover](./img/aie_cover.png)
 
 ## 簡介
 
@@ -18,22 +18,36 @@
 
 不過目前會是以LLM為主，除了我之前就弄過的相關內容之外，其他的內容會是必須的才會被添加。
 
-## 0.算法與資料結構
+## 算法與資料結構
 
-## 1.AI,ML
+## [從AI到LLM基礎](#從ai到llm基礎)
 
-### 1.1 ML-SKLearn
-### 1.2 [ChatGPT for Data Analytics : Full Course ](https://youtu.be/uhyMqbZI6rM?si=ebSO8H07ELUZn57z)(目前擱置)
+這邊主要是根據 LLM course 上面的目錄為基礎的加深以及補強。
 
-## 2.DL,MLOps
+主要內容為數學基礎,資料分析跟處理,機器學習,深度學習中的 NLP 以及 CV 和 MLOps
 
-## 3.LLM基礎
-這邊主要是根據LLM course上面的目錄為基礎的加深以及補強。
+(為原內容再加深之外再加上CV 跟 MLOps等工作上可能會用到的內容)
+
+之後再新增[ChatGPT for Data Analytics : Full Course](https://youtu.be/uhyMqbZI6rM?si=ebSO8H07ELUZn57z)的學習紀錄跟內容。
+
+<details>
+<summary>點擊以打開詳細內容</summary>
+
 ![roadmap_fundamentals](./img/roadmap_fundamentals.png)
-## 4.LLM模型工程,LLMOps
+
+</details>
+
+## [LLM模型工程與LLMOps](#llm模型工程llmops)
+
+<details>
+<summary>點擊以打開詳細內容</summary>
+
 ![roadmap_scientist](./img/roadmap_scientist.png)
 
+</details>
+
 ## 5.LLM應用工程
+
 ![roadmap_engineer](./img/roadmap_engineer.png)
 
 ## 6.相關的更新Blog
