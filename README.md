@@ -162,7 +162,7 @@ Python 是一種強大而靈活的程式語言，由於其可讀性、一致性�
 - [Udacity - 機器學習簡介](https://www.udacity.com/course/intro-to-machine-learning--ud120): 免費課程，涵蓋 PCA 和其他幾個機器學習概念。
 
 ---
-### 3. 神經網絡跟深度學習
+### 4. 神經網絡,深度學習與自然語言處理(NLP)和電腦視覺(CV)
 
 - **基礎知識**: 這包括理解神經網路的結構，例如層、權重、偏差和激活函數（sigmoid、tanh、ReLU 等）
     - [3Blue1Brown - 什麼是神經網路？](https://www.youtube.com/watch?v=aircAruvnKk): 該影片直觀地解釋了神經網路及其內部運作原理。
@@ -182,7 +182,61 @@ Python 是一種強大而靈活的程式語言，由於其可讀性、一致性�
 
 ---
 
-### 4. 自然語言處理(NLP)
+#### 4.1 電腦視覺(CV)
+
+電腦視覺 (Computer Vision)：電腦視覺是人工智慧的一個分支，它使電腦能夠從數位圖像和影片中提取、分析和理解有意義的資訊。電腦視覺的應用範圍廣泛，從自動駕駛汽車到醫學影像分析，再到增強現實。
+
+好的，以下是專注於深度學習在計算機視覺中的學習路線及資源：
+
+---
+
+**深度學習在計算機視覺中的應用**涉及到使用深度神經網絡（如卷積神經網絡）來進行圖像識別、分類、分割等任務。這些技術已廣泛應用於自動駕駛、醫療影像分析、監控系統等領域。
+
+### 1. **卷積神經網絡 (CNN) 基礎**
+- **基本結構**: 學習CNN的基本結構，包括卷積層、池化層、激活函數和全連接層。
+- **經典架構**: 了解經典的CNN架構如LeNet、AlexNet、VGG、GoogLeNet、ResNet等，以及它們在ImageNet等大型數據集上的應用。
+
+    - [Stanford CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/): 深入了解CNN理論和實踐的課程資源。
+    - [Andrew Ng's Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning): 包括卷積神經網絡的專門課程。
+
+### 2. **圖像分類與識別**
+- **圖像分類**: 使用深度學習模型進行圖像分類任務，包括單標籤和多標籤分類。
+- **物體檢測**: 了解區域提議網絡（RPN）及其在Faster R-CNN中的應用，以及其他物體檢測方法如YOLO和SSD。
+
+    - [YOLO: Real-Time Object Detection](https://pjreddie.com/darknet/yolo/): 了解YOLO算法的實際應用。
+    - [Faster R-CNN Paper](https://arxiv.org/abs/1506.01497): 了解物體檢測中的Faster R-CNN模型。
+
+### 3. **圖像分割**
+- **語義分割**: 使用全卷積網絡（FCN）、U-Net等模型對圖像進行像素級的分類。
+- **實例分割**: 了解Mask R-CNN等模型，實現對圖像中不同物體實例的區分。
+
+    - [U-Net Paper](https://arxiv.org/abs/1505.04597): 針對生物醫學圖像分割的U-Net模型介紹。
+    - [Mask R-CNN Paper](https://arxiv.org/abs/1703.06870): 詳細介紹實例分割的Mask R-CNN模型。
+
+### 4. **生成對抗網絡 (GAN)**
+- **GAN基礎**: 學習生成對抗網絡的基本原理，包括生成器和判別器的設計。
+- **應用**: 探索GAN在圖像生成、圖像風格轉換、超分辨率等方面的應用。
+
+    - [Ian Goodfellow's GAN Paper](https://arxiv.org/abs/1406.2661): GAN的原始論文。
+    - [DCGAN Tutorial](https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html): 使用PyTorch進行DCGAN的實踐教程。
+
+### 5. **基於Transformer的模型**
+- **Vision Transformer (ViT)**: 了解Transformer架構在計算機視覺中的應用，特別是在圖像分類等任務中的表現。
+
+    - [Vision Transformer Paper](https://arxiv.org/abs/2010.11929): 詳細介紹ViT的理論和應用。
+
+### 6. **資源與實踐**
+- **實踐平台**: 使用Kaggle等平台進行實踐，參與計算機視覺比賽和項目。
+- **學習工具**: 使用TensorFlow、PyTorch等框架進行模型設計和訓練。
+
+    - [PyTorch Documentation](https://pytorch.org/docs/stable/index.html): PyTorch的官方文檔和教程。
+    - [TensorFlow for Deep Learning](https://www.tensorflow.org/learn): TensorFlow的深度學習指南。
+
+這些內容涵蓋了深度學習在計算機視覺中的核心技術和應用，幫助學習者全面掌握從基礎到進階的知識與技能。
+
+---
+
+#### 4.2 自然語言處理(NLP)
 
 NLP 是人工智慧的一個令人著迷的分支，它彌合了人類語言和機器理解之間的差距。從簡單的文字處理到理解語言的細微差別，NLP 在翻譯、情緒分析、聊天機器人等許多應用中發揮著至關重要的作用。
 
