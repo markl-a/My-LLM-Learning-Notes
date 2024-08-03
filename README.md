@@ -7,7 +7,7 @@
  - [ ] 醫療助手
  - [ ] Code 助手
  - [ ] RPA + LLM
-
+ - [ ] 每個區塊的 mini project 
 
 # 目錄
 
