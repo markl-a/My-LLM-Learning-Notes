@@ -139,6 +139,8 @@ Python 是一種強大而靈活的程式語言，由於其可讀性、一致性�
 
 - **Python基礎**: Python程式設計需要很好地理解基本語法、資料類型、錯誤處理和物件導向程式設計。
     -  推薦閱讀,應用-[Python自學從哪開始？線上免費資源一次告訴你！](https://blog.luckertw.com/python-learning/)
+    - 其實去 freecode camp 練下大概就可以了，程式語言只要會C ,C++的話，除了彙編語言或verilog這類的語言之外其他的語言就不會相差太多。
+    - 在弄清楚基本的原理後，實作的項目可參考: [Project-based-learning](https://github.com/practical-tutorials/project-based-learning?tab=readme-ov-file#python)
 - **資料科學函式庫**: 包括熟悉用於數值運算的 NumPy、用於資料操作和分析的 Pandas、用於資料視覺化的 Matplotlib 和 Seaborn。
     -  推薦閱讀,應用-[Visualization Curriculum](https://uwdata.github.io/visualization-curriculum/intro.html)
     -  推薦閱讀,應用-[Python資料科學分享－3.資料視覺化(1)](https://asyncfor.com/jupyter/python/data%20science/2020/05/22/data-viz-1.html)
