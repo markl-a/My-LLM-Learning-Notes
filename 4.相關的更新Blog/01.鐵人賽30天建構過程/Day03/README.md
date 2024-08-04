@@ -3,6 +3,7 @@ Day03:
 這個是https://youtu.be/kCc8FmEb1nY?si=zzFDGfaaAtEGxE0s 的學習紀錄
 
 下面的文章應該會有很多錯誤，請對照著影片觀看以及操作。
+晚點會附上實際的操作以及程式碼。
 
 Chapters:
     1.- 00:00:00 intro: ChatGPT, Transformers, nanoGPT, Shakespeare 
