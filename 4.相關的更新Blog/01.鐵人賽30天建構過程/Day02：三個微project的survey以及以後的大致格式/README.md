@@ -1,5 +1,3 @@
-Day02: 三個微project的survey以及以後的大致格式
-
 由於今天太晚才開始寫，所以目前大致上大概就把這30天要做的三個微project的survey跟進度,以及之後大致的內容大致的格式大概描述一下。
 
 1.醫療助手：
@@ -37,19 +35,21 @@ Day02: 三個微project的survey以及以後的大致格式
    2. [autoMate](https://github.com/yuruotong1/autoMate)
    3. [Autogen_GraphRAG_Ollama](https://github.com/karthik-codex/Autogen_GraphRAG_Ollama)
 
-4.之後每天大致的內容跟格式
+4.之後大致的內容跟格式
 
-   1.llm 模型的內容實作</br>
-   2.llm 應用的內容實作</br>
-   3.deeplearning.ai短課程的學習紀錄,心得跟應用</br>
-   4.醫療助手</br>
-   5.code助手</br>
-   6.RPA+LLM</br>
-   (可能會有)7.DL的內容跟實作(pytorch ,tensorflow2 ,keras3,optuna)</br>
-   (可能會有)8.ML的內容跟實作(pandas,numpy,sk-learn)</br>
-   (可能會有兩三篇)9.音樂,語音,圖像,影片生成,具身智能的內容,模型,框架跟實作</br>
-   (可能會有兩三篇)10.目前較新或較為關鍵的論文,程式碼閱讀跟紀錄</br>
-   (可能會有兩三篇)11.目前較新或較為熱門的生成式AI項目介紹,使用跟原理解讀</br></br>
+   1.後幾天基本是[LLM Course](https://github.com/mlabonne/llm-course) 中模型的部分，每天大概一個部分，盡可能包含實作（9天）
+   2.之後就大概是 [LLM Course](https://github.com/mlabonne/llm-course)中應用的部分，也是依樣每天一個部分，也盡可能包含實作（7~8天）
+   
+   剩下大概12天
+   3. 音樂,語音,圖像,影片生成,具身智能的內容,模型,框架跟實作(5天)
+   4. 論文+code兩篇 (2天)
+   5. 
+       5.1: ML (pandas,numpy,sk-learn)
+       5.2: DL (pytorch ,tensorflow2 ,keras3,optuna)中的內容跟實作(1天)(要提前準備)
+   6.醫療助手  一天(要提前準備)
+   7.code助手  一天(要提前準備)
+   8.RPA+LLM  一天(要提前準備)
+   9.目前較新或較為熱門的生成式AI項目介紹,使用跟原理解讀
    上面的內容除了微項目外大多會轉到我在github上面的[筆記](https://github.com/markl-a/My-AI-Engineer-s-Notes)中，當然這也是目的之一就是了
     
 這樣大概週末真的要屯稿就是了，要不然大概做不完。
