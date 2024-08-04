@@ -1,5 +1,5 @@
 Day03:
-1.llm 模型內容:Create a Large Language Model from Scratch with Python – Tutorial 學習紀錄(上)
+1.llm 模型內容:Create a Large Language Model from Scratch with Python – Tutorial 學習紀錄(下)
 這個是https://www.youtube.com/watch?v=UU1WVnMk4E8的學習紀錄
 
 1.1 **Intro (0:00:00)**
@@ -233,16 +233,12 @@ Day03:
 
 2.llm 應用內容:
  https://www.kdnuggets.com/run-an-llm-locally-with-lm-studio
- (上)
 3.deeplearning.ai短課程的學習紀錄,心得跟應用:
  https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/
- (上)
 4.醫療助手:
  醫療助手重新finetune
- (上)
 5.code助手:
  survey 以及初始化
- (上)
 6.RPA+LLM:
  survey 以及初始化
 7.DL的內容跟實作(pytorch(8) ,tensorflow2(8) ,keras3(8),optuna(1),autokeras(1),yolo(1),unet(1)):
