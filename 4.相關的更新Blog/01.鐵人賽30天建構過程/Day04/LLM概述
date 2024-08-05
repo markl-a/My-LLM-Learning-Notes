@@ -1,0 +1,1065 @@
+原本只是覺得這個蠻適合拿來當作 llm筆記的介紹的，沒想到只花幾十分鐘看的影片花了n倍魚片長的時間去弄。
+
+[Stanford CS25: V4 I Overview of Transformers](https://youtu.be/fKMB5UlVY1E?si=i46RvX2WgnAf6PyE)
+
+# Transformers and LLMs: An Introduction
+
+![Attention timeLine](D401.png)
+
+## 注意力機制的發展過程
+
+當前的注意力機制的發展歷程可以分為幾個階段：
+
+首先，我們可以說有一個「史前時代」，在這個時代，我們使用非常簡單的方法來處理語言，如基於規則的方法、語法解析、RNN（循環神經網絡）和LSTM（長短期記憶網絡）。然而，這一切在2014年左右開始改變，人們開始研究注意力機制。當時的研究主要集中在圖像上，探討如何模仿人類大腦的注意力機制——即能否聚焦於圖像的不同部分，以便對使用者查詢或重點關注的內容給予更多注意。
+
+注意力機制在2017年初迎來了爆炸性的發展，這要歸功於Ashish Vaswani等人發表的論文《Attention Is All You Need》。這篇論文使得Transformer架構成為主流，人們意識到這是一種可以廣泛應用的新架構。隨後，我們看到Transformer在自然語言處理領域的廣泛應用，例如BERT和GPT-3，並且也延伸到了其他領域，如圖像處理和蛋白質折疊（例如AlphaFold），以及視頻模型如Sora等。
+
+現在，基本上所有的先進架構都包含了注意力機制的組合，並且還有其他架構如擴散模型（diffusion models）等。這也引領了生成式AI時代的開端，現在我們擁有了這些強大的模型，它們擁有數十億甚至數萬億的參數，可以應用於許多不同的場景。
+
+如果我們回顧一年前，AI技術主要局限於實驗室內，而現在AI已經走出實驗室，開始應用於現實生活中，並逐漸成為主流。如果我們觀察目前的發展軌跡，我們處於一個快速上升的趨勢中，發展速度越來越快。每個月都有大量的新模型出現，每天都有很多新的進展。
+
+未來一年或兩年，我們將會看到這一切如何改變社會。AI領域的革命正在發生，它將改變我們與科技互動的方式、日常生活中的許多方面，以及我們擁有的智能助手。很多這些變化可能都會來自於我們在這門課程中學習的內容。
+
+##  Challenges and Weaknesses
+
+###  Challenges of NLP:
+- Discrete nature of text
+- More difficult data augmentation
+- Text is “precise” - one wrong word changes entire meaning of a sentence
+- Potential for long context lengths and memories (e.g. conversations)
+- Many more…
+
+###  Weaknesses of earlier models/apporoaches:
+- Short context length
+- “Linear” reasoning - no attention mechanism to focus on other parts
+- Earlier approaches (e.g. word2vec) do not adapt based on context
+
+總的來說，自然語言處理（NLP）領域，最初發明Transformer的主要應用之一，其基本特徵是文本的離散性質，這使得很多事情變得困難。比如，數據增強在文本中變得更加困難。你不能像處理圖像一樣，簡單地翻轉它或改變一些像素值。文本非常精確，一個錯誤的詞可以改變整個句子的意思，甚至讓它變得毫無意義。
+
+此外，文本還有可能涉及到長篇上下文以及記憶的問題。比如，如果你和ChatGPT進行多次對話，能夠學習並存儲所有這些信息是一個巨大的挑戰。
+
+早期模型的一些弱點，包括上下文長度的限制、線性推理能力，以及很多早期的方法無法根據上下文進行適應等問題，都是需要克服的挑戰。
+
+## NLP Throughout the Years
+
+### Rule Based NLP Systems
+
+![Eliza](./D402.png)
+
+1966年，出現了最早的聊天機器人，叫做Eliza。它不是真正的人工智慧，更像是模擬文本和詞語的模式，給人一種這個聊天機器人似乎理解你在說什麼的錯覺。
+
+### Linguistic Foundations
+- Rule-based approaches
+- Semantic parsing
+- Analyzing linguistic structure and grammars of text
+![Linguistic Foundations](./D403.png)
+這是最早期的NLP形式，主要是基於規則的方法，試圖理解句子的模式和詞語的使用模式，這也是語義解析的早期語言學基礎。
+### Word Embeddings
+- Represent each word as a “vector” of numbers
+- Converts a “discrete” representation to “continuous”, allowing for:
+- - More “fine-grained” representations of words
+- - Useful computations such as cosine/eucl distance
+- - Visualization and mapping of words onto a semantic space
+-Examples:
+- - Word2Vec (2013), GloVe, BERT, ELMo
+![Word Embeddings](./D404.png)
+Traditional NLP : one hot vector representation → semantic relation btw words, 
+Word2Vec: efficient method to learn word vector representations from a large corpora 
+does not capture polysemy 
+
+接下來，我們需要深入理解詞語中的含義，因此我們引入了詞嵌入（Word Embeddings）的概念，即詞語的向量表示法。詞嵌入讓我們理解了以前無法理解的詞語之間的不同語義。這些向量表示法中，相似的詞語會在向量空間中靠得更近，讓我們能夠學習到不同的含義。
+
+我這裡有一些例子，例如Word2Vec、Glove、Elmo，這些都是不同類型的詞嵌入。Word2Vec是一種局部上下文的詞嵌入，而Glove則能夠在文檔中獲取全局上下文。
+
+### Seq2seq Models
+- Recurrent Neural Networks (RNNs)
+- Long Short-Term Memory Networks (LSTMs)
+
+![LSTM](./D405-LSTM.png)
+
+- “Dependency” and info between tokens
+- Gates to “control memory” and flow of information
+
+![RNN](./D406-RNN.png)
+
+LSTMs use a series of 'gates' which control how the information in a sequence of data comes into, is stored in and leaves the network. There are three gates in a typical LSTM; forget gate, input gate and output gate. These gates can be thought of as filters and are each their own neural network.
+
+有了這些向量表示，我們可以將它們應用到模型中，完成各種任務，如問答系統、文本摘要、句子補全、機器翻譯等。我們也發展出了不同類型的模型來處理這些任務，例如用於翻譯任務的RNN（循環神經網絡）和LSTM（長短期記憶網絡）。
+
+隨著模型的發展，我們面臨的新挑戰是如何更好地完成這些任務。
+
+序列到序列模型（sequence to sequence models）在許多方面自然是不夠高效且效果不佳的。它們無法並行化，因為需要依賴遞歸，這就需要維持一個隱藏的上下文向量來保存所有之前詞語及其信息。因此，這種方法無法並行化，而且效率低下，效果也不理想。
+
+這就引出了現在所知的注意力機制和Transformer。正如這個詞所暗示的，注意力機制指的是能夠將注意力集中在某個事物的不同部分上，在這裡指的是文本的一部分。這是通過一組稱為權重的參數來實現的，這些權重基本上決定了在每個時間步應該對每個輸入賦予多少注意力。這些權重是通過輸入和模型當前的隱藏狀態的組合來計算的。
+### Attention and Transformers
+
+![Attention and Transformers](./D407.png)
+
+https://arxiv.org/abs/1706.03762 
+https://jalammar.github.io/illustrated-transformer/
+- Allows to “focus attention” on particular aspects of the input text
+- Done by using a set of parameters, called "weights," that determine how much attention should be paid to each input at each time step
+- These weights are computed using a combination of the input and the current hidden state of the model
+- Attention weights are computed (dot product of the query, key and value matrix), then a softmax function is applied to the dot product
+![function](./D408.png)
+
+
+當我展示幻燈片時，這一點會更加清晰。這裡你有一個例子——這是一個自注意力的例子。如果我們當前處於詞語“it”，我們想知道應該對輸入序列中的所有其他詞語賦予多少注意力。同樣，當我進一步解釋時，這將變得更清晰。
+
+注意力機制主要依賴於三個部分，稱為查詢（queries）、鍵（keys）和值（values）。我試圖用一個好的比喻來解釋這一點，基本上就像一個圖書館系統。假設你的查詢是你在尋找的東西，例如，一個特定的主題“我想要關於如何製作披薩的書籍”。
+### Analogy for Q, K, V
+
+- Library system
+- Imagine you're looking for information on a specific topic (query)
+- Each book in the library has a summary (key) that helps identify if it contains the information you're looking for
+- Once you find a match between your query and a summary, you access the book to get the detailed information (value) you need
+- Here, in Attention, we do a “soft match” across multiple values, e.g. get info from multiple books (“book 1 is most relevant, then book 2, then book 3, etc.”)
+![function](./D408.png)
+
+而每本書在圖書館中都有一個鍵來幫助識別它，例如“這本書是關於烹飪的”、“這本書是關於Transformer的”、“這本書是關於電影明星的”等等。然後你可以將你的查詢與這些鍵或摘要進行匹配，以確定哪本書能給你提供你所需的最多信息。這些信息就是你想要檢索的值。
+### Attention and Transformers
+- Attention weights used to compute the context vector, which is a weighted sum of the input at different positions
+- Context vector is used to update the hidden state of the model, which is used to generate the final output
+- "Pay attention" to different parts of the input, depending on the task at hand → more accurate and natural-sounding output, esp. when working with longer inputs (e.g. paragraphs)
+![Transformers](./D409-transformer.png)
+### Self-Attention
+![Self-Attention](./D410-attention.png)
+https://jalammar.github.io/illustrated-transformer/
+
+在注意力機制中，我們進行的是軟匹配。我們不是試圖檢索一本書，而是想看看所有書籍的相關性或重要性分佈。例如，這本書可能是最相關的，我應該花最多的時間在上面。這本書可能是第二相關的，我會花適中的時間。然後第三本書相關性較低，以此類推。因此，注意力基本上是一種軟匹配，用來找出最相關的內容，這些內容包含在那些值中。這就是當你將查詢與鍵相乘，然後再將結果與值相乘來得到最終的注意力值時所使用的方程式。
+
+此外，這裡還有一個視覺化的展示。這段解釋來自《Illustrated Transformer》，介紹了自注意力機制的運作方式。基本上，你可以將輸入的詞語嵌入到向量中，然後為每個詞初始化查詢（query）、鍵（key）和值（value）矩陣。這些矩陣會在訓練Transformer模型時進行學習。通過將輸入與這些查詢、鍵和值矩陣相乘，得到最終的查詢、鍵和值矩陣，這些矩陣會被用來計算最終的注意力分數，如公式所示。
+![function](./D408.png)
+
+### Transformer & Multi-Head Attention
+![Transformers](./D409-transformer.png)
+“Attention Is All You Need”
+https://arxiv.org/abs/1706.03762
+
+Repeat encoding + decoding process N times (stacking N layers) for: increased representation power, hierarchical feature learning, deep contextual embeddings, flexibility + adaptability, parallelization
+Stacking N layers: output of one layer becomes input to another
+Positional encodings give each token a “position” (Since not sequential)
+
+
+In a Transformer, layers refer to the sequential stages of processing, where each layer can learn different aspects of the data. Heads, on the other hand, are components of the multi-head attention mechanism within each layer, allowing the model to focus on different parts of the input simultaneously for a more nuanced understanding. The outputs of these heads are then concatenated together and passed through a feed-forward network within the same layer. This concatenated output is what progresses to the next layer in the network.
+
+
+Transformer的工作原理基於一種稱為多頭注意力（multi-head attention）的機制，即進行多次注意力操作。由於每個頭部的初始化是隨機的，我們的目標是每個注意力頭學到的內容有用且不同於其他頭部。這樣就可以從文本中獲得更全面的相關信息表示。這些操作會重複多次，從而學到層次特徵和更深入的信息。
+
+在Transformer結構中，有些模型如T5或BART，包含編碼器（encoder）和解碼器（decoder）部分，適用於機器翻譯等任務。而GPT或ChatGPT這樣的模型僅包含解碼器部分，因為它們不需要處理第二來源的輸入文本。對於像ChatGPT這樣的自回歸（autoregressive）從左到右的語言模型，它只能基於目前已生成的內容進行解碼，這與機器翻譯（如從英語翻譯到法語）需要處理兩種不同的語言文本不同。
+
+### Multi-Head Attention
+![D411](./D411.png)
+https://jalammar.github.io/illustrated-transformer/
+
+多頭注意力的工作方式是為每個頭部初始化一組不同的查詢、鍵和值矩陣，這些矩陣會在訓練和反向傳播過程中獨立學習。你可以將每個詞嵌入後分成多個頭部，然後將這些矩陣相乘，得到最終的注意力分數，這些分數會被串聯起來並與一個最終的權重矩陣相乘。之後會經過一些線性層和softmax操作，來幫助預測下一個詞元。
+
+這就是多頭注意力的基本運作原理。如果你想要更深入的描述，可以在線上找到很多資源和課程。
+
+### Cross-Attention (e.g. Machine Translation)
+![Cross-Attention](./D412-Cross-Attention.png)
+https://jalammar.github.io/illustrated-transformer/
+最後簡要提到交叉注意力（cross-attention）。在這裡，你有一個輸入序列和一個不同的輸出序列，例如從法語翻譯成英語。在解碼輸出（例如英語翻譯文本）時，有兩個注意力來源。一個是來自編碼器，即輸入的整個編碼隱藏狀態，這稱為交叉注意力，因為它涉及兩段不同的文本。此時的查詢是當前的解碼輸出，而鍵和值則來自編碼器。另一個注意力來源是解碼詞語之間的自注意力（self-attention），這部分的查詢、鍵和值完全來自解碼方。這類架構結合了這兩種類型的注意力，與僅有自注意力的解碼器模型相比，提供了更豐富的上下文信息。
+
+### Transformers vs. RNNs
+
+| Challenges with RNNs                 | Transformers                        |
+|--------------------------------------|-------------------------------------|
+| Long range dependencies              | Can model long-range dependencies   |
+| Gradient vanishing and explosion     | No gradient vanishing and explosion |
+| Large # of training steps            | Fewer training steps                |
+| Sequential/recurrence → can’t parallelize | Can parallelize computation      |
+| Complexity per layer: O(n*d^2)       | Complexity per layer: O(n^2*d)      |
+
+那麼，Transformer與RNN（循環神經網絡）相比到底有什麼不同呢？
+
+RNN在表現長程依賴關係上有一些問題。它們存在梯度消失和梯度爆炸的問題，因為所有的信息都被串聯到一個單一的隱藏向量中，這可能導致很多問題。此外，RNN涉及大量的訓練步驟，並且由於其序列性和依賴於遞歸特性，無法進行並行計算。
+
+相比之下，Transformer可以建模長程依賴關係，不會出現梯度消失或梯度爆炸的問題，而且可以並行化計算。例如，它可以更好地利用GPU計算資源。總的來說，Transformer在表現語言方面更加高效和有效，因此它成為了當今最受歡迎的深度學習架構之一。
+
+### Large Language Models
+
+- Scaled up versions of Transformer architecture, e.g. millions/billions of parameters
+- Typically trained on massive amounts of “general” textual data (e.g. web corpus)
+- Training objective is typically “next token prediction”: P(Wt+1|Wt,Wt-1,...,W1)
+- Emergent abilities as they scale up (e.g. chain-of-thought reasoning)
+- Heavy computational cost (time, money, GPUs)
+- Larger general ones: “plug-and-play” with few or zero-shot learning
+    - Train once, then adapt to other tasks without needing to retrain
+    - E.g. in-context learning and prompting
+
+大型語言模型基本上是Transformer架構的擴展版本，擁有數百萬甚至數十億的參數。這裡的參數基本上是神經網絡中的節點。通常，這些模型會在大量的通用文本數據上進行訓練，例如從維基百科、Reddit等網站挖掘大量文本數據。通常會有過濾過程來篩選這些文本，例如剔除不適合工作場合的內容並進行質量過濾。
+
+訓練的目標通常是下一個詞元預測，也就是給定之前的所有詞元來預測下一個最有可能的詞元。這也是像ChatGPT這樣的自回歸從左到右的架構的工作原理。此外，隨著模型規模的擴大，它們被證明具備了新的能力。
+
+然而，這些模型需要大量的計算資源。訓練這些龐大的網絡需要大量的時間、金錢和GPU，因此目前這種訓練主要由擁有資源和資金的大公司來進行。
+
+現在，我們擁有了非常通用的模型，可以直接使用這些模型來完成各種不同的任務，而無需重新訓練它們。這可以通過上下文學習、遷移學習以及提示等方法來實現。
+
+### Emergent Abilities of Large Language Models
+
+- Why do LLMs work so well? What happens as you scale up?
+- Potential explanation: emergent abilities!
+- An ability is emergent if it is present in larger but not smaller models
+- Not have been directly predicted by extrapolating from smaller models
+- Performance is near-random until a certain critical threshold, then improves heavily
+    - Known as a “phase transition” and would not have been extrapolated
+
+    Wei et al., 2022. https://arxiv.org/abs/2206.07682
+
+是的，所以關於為什麼語言模型效果如此好的自然問題是，當模型規模擴大時會發生什麼。我們看到過去有一個大的趨勢，就是投入更多的資金到計算資源中，讓模型變得越來越大。事實上，我們已經看到了很多很酷的事情，這些我們現在稱之為「新出現的能力或湧現」（emergent abilities）。
+
+新出現的能力是指在較大的模型中存在而在較小的模型中不存在的能力。我認為最有趣的是這些新出現的能力是非常難以預測的。我們不能簡單地說按照某種縮放規則訓練模型，然後在某個訓練階段，我們就能擁有這種很酷的能力。實際上，這更像是一種隨機的過程，在某個難以或無法預測的閾值上，它就突然提升了。我們稱之為「相變」。
+
+### Few-Shot Prompting
+
+和其他研究者一起進行了一個非常酷的研究項目，展示並描述了不同模型中的許多新出現的能力。
+
+在這裡，我們有五個不同的模型，還有許多我們用來測試語言模型能力的常見任務。例如，複雜的算術計算、音譯、判斷某人是否在說實話等。在這張圖中，我們可以看到這八個圖表，每個圖表中都有一個非常明顯的峰值，這不是逐步的準確性增加，而是一種突然的躍升。我們可以將這種現象稱為「相變」。
+
+![Few-Shot Prompting](./D413.png)
+
+文本討論了提示範式中的新出現能力，其中預訓練語言模型會給定一個提示（例如自然語言指令），並在不進行任何額外訓練或參數梯度更新的情況下完成響應。作者重點介紹了「少樣本提示」（few-shot prompting），其中模型在執行任務前會在上下文中包含一些輸入-輸出示例。文本解釋說，通過少樣本提示執行任務的能力是新出現的，當模型在某個規模之前性能隨機，之後性能顯著超過隨機時，這種能力就會出現。文本提供了來自不同語言模型家族的八個這樣的新出現能力的例子，包括來自BIG-Bench、TruthfulQA、基於概念的映射和多任務語言理解的能力。文本還提到，這一結果很顯著，因為它可能意味著解決跨越大量主題的知識性問題的能力需要超過某個特定的規模閾值。
+
+**BIG-Bench**：圖2A-D顯示了BIG-Bench中四個新出現的少樣本提示任務，BIG-Bench是一套由眾包超過200個基準測試組成的語言模型評估套件（BIG-Bench, 2022）。圖2A展示了一個測試3位數加減法和2位數乘法的算術基準。GPT-3和LaMDA在多個數量級的訓練計算中表現接近零，直到GPT-3達到13B參數（2 · 10^22 FLOPs）和LaMDA達到68B參數（10^23 FLOPs）時，性能突然顯著高於隨機水平。類似的行為也在其他任務中出現，如從國際音標轉錄（圖2B）、從打亂的字母中恢復單詞（圖2C）、和波斯語問答（圖2D）。更多BIG-Bench中的新出現能力請參見附錄E。
+
+**TruthfulQA**：圖2E顯示了TruthfulQA基準中的少樣本提示性能，該基準測量真實回答問題的能力（Lin et al., 2021）。這個基準是針對GPT-3模型對抗性策劃的，即使將其擴展到最大模型尺寸，GPT-3模型的性能也沒有超過隨機水平。小型Gopher模型在擴展到最大模型（280B參數，5 · 10^23 FLOPs）之前也沒有超過隨機水平，這時性能突然上升到比隨機水平高20%以上（Rae et al., 2021）。
+
+**基於概念的映射**：圖2F顯示了基於概念的映射任務，其中語言模型必須學會將一個概念域（如方位）映射到文本網格世界中（Patel & Pavlick, 2022）。同樣，只有使用最大GPT-3模型時，性能才超過隨機水平。
+
+**多任務語言理解**：圖2G顯示了大規模多任務語言理解（MMLU）基準，該基準匯總了涵蓋數學、歷史、法律等57個測試（Hendrycks et al., 2021a）。對於GPT-3、Gopher和Chinchilla，在10^22 FLOPs（10B參數）或更小的模型中，平均來說在所有主題上的表現不比隨機好，而擴展到70B-280B參數（3-5 · 10^23 FLOPs）的模型則能顯著超過隨機水平。這一結果很顯著，因為它可能意味著要解決跨越大量主題的知識性問題需要超過這個閾值（對於沒有檢索或外部記憶訪問的密集語言模型）。
+
+**上下文中的詞語**：最後，圖2H顯示了上下文中的詞語（WiC）基準（Pilehvar & Camacho-Collados, 2019），這是一個語義理解基準。值得注意的是，即使將GPT-3和Chinchilla擴展到最大的模型尺寸（5 · 10^23 FLOPs），它們也未能在單次提示中達到比隨機更好的性能。儘管這些結果可能表明僅靠擴展可能無法解決WiC，但當PaLM擴展到2.5 · 10^24 FLOPs（540B參數）時，終於出現了比隨機更好的性能。
+
+### Potential Explanations of Emergence
+
+- Currently few explanations for why these abilities emerge
+- Evaluation metrics used to measure these abilities may not fully explain why they emerge
+- Disclaimer: maybe emergent abilities of LLMs are a mirage!!!
+    - https://arxiv.org/abs/2304.15004
+    - “Emergent abilities appear due to the researcher's choice of metric rather than due to fundamental changes in model behavior with scale”
+
+目前，對於為什麼這些新出現的能力會出現，解釋非常少。用來衡量這些能力的評估指標並不能完全解釋它們的出現原因。最近斯坦福的一些研究者發表了一篇有趣的研究論文，實際上聲稱大型語言模型的這些新出現能力可能並不存在。他們認為，這可能更多的是研究者選擇的評估指標是非線性的，而不是模型在規模變化時發生了根本的變化。
+
+### Beyond Scaling
+
+- Further scaling could endow even-larger LMs with new emergent abilities
+- While scaling is a factor in emergent abilities, it is not the only factor
+- E.g. new architectures, higher-quality data, and improved training procedures, could enable emergent abilities on smaller models
+- Further research may make the abilities available for smaller models
+- Other directions: improving few-shot prompting abilities of LMs, theoretical and interpretability research, and computational linguistics work
+因此，自然會有人問：擴展模型規模是最好的選擇嗎？這是唯一的選擇嗎？這是提升我們模型的最重要方法嗎？雖然擴展確實是這些新出現能力的因素之一，但它並不是唯一的因素，特別是在較小的模型中。我們還有新的架構、更高質量的數據和改進的訓練程序，這些都可能在較小的模型中帶來這些新出現的能力。
+
+這些因素帶來了很多有趣的研究方向，包括通過其他方法改進少樣本提示能力、理論和解釋性研究、計算語言學研究等，以及其他研究方向。
+
+### Questions for the Group
+
+- Do you believe emergent abilities will continue to arise with more scale? Will there be a limit? Possibly even diminishing returns?
+- What are your thoughts on the current trend of larger models and more data? Do you believe this is a good direction for the research community, or rather “inhibiting our creativity”?
+- Thoughts on retrieval-based or retrieval-augmented systems compared to simply “learning everything” within the parameters of the model?
+
+這引發了一些有趣的問題：你認為隨著模型規模的擴大，會繼續出現新的能力嗎？比如，是否在達到某個極端的參數數量後，我們的語言模型會突然能夠自我思考並做出各種酷炫的事情？還是說存在某種極限？你對當前這種追求更大模型和更多數據的趨勢有何看法？
+
+更大的模型顯然意味著更多的資金投入和計算資源需求，並且可能會導致AI研究的民主化程度降低。相比於在模型參數中學習所有知識，基於檢索或檢索增強系統的方向又如何？這是否是一個好的方向？
+
+這些問題都是值得探索的有趣方向。
+
+## RLHF, ChatGPT, GPT-4, Gemini
+
+### Reinforcement Learning with Human Feedback (RLHF)
+
+- RLHF: technique that trains a "reward model" directly from human feedback
+- Uses the model as a reward function to optimize an agent's policy using reinforcement learning (RL) through an optimization algorithm
+- Ask humans to rank instances of the agent's behavior, e.g. which produced response is better
+
+![RLHF](./D414.png)
+我們來簡要介紹一下從人類反饋中學習的強化學習（Reinforcement Learning from Human Feedback, RLHF）。這是一種用來訓練大型語言模型的技術。通常，我們會向人類提供兩個來自語言模型的輸出，然後詢問他們更喜歡哪一個。選擇他們偏好的那個輸出，並將這個偏好反饋給模型，以訓練出一個更符合人類偏好的模型。
+
+### Direct Preference Optimization (DPO) 
+最近，由於從人類反饋中學習的強化學習（RLHF）存在一些限制，比如需要高質量的人類反饋、好的獎勵和良好的策略，整個訓練過程非常複雜。最近的一篇論文介紹了DPO（偏好排序優化）方法，該方法僅使用偏好數據和非偏好數據，並將這些數據輸入語言模型。這是一種更快速的算法，可以更高效地訓練這些語言模型。
+![DPO](./D415.png)
+https://arxiv.org/pdf/2305.18290.pdf
+微調大型語言模型（LLMs）以符合人類偏好。不同於傳統的從人類反饋中學習的複雜強化學習方法（RLHF），DPO（偏好排序優化）簡化了這個過程。它通過創建一個包含人類偏好對的數據集來實現，每個對包括一個提示和兩個可能的完成選項——一個是偏好的，另一個是不偏好的。然後，對LLM進行微調，使其生成偏好的完成選項的可能性最大化，並生成不偏好的選項的可能性最小化。
+
+### ChatGPT
+
+- Finetuned on GPT-3.5, which is a series of models trained on a mix of text and code using instruction tuning and RLHF
+- Taken the world by storm!
+![ChatGPT](./D416.png)
+簡單介紹一下GPT。ChatGPT是基於GPT-3.5進行微調的。我們還有一張圖表，展示了不同類型的GPT模型的發布情況。
+
+### GPT-4
+
+- Supervised learning on large dataset, then RLHF and RLAIF
+- GPT-4 trained on both images and text, vision is also out!
+    - Discuss humor in images, summarize screenshot text, etc.
+- GPT-4 is "more reliable, creative, and able to handle much more nuanced instructions than GPT-3.5”
+- Much longer context windows of 8,192 and 32,768 tokens
+- Does exceptionally well on standardized tests
+- Did not release technical details of GPT-4
+GPT-4是下一版本的模型，它在一個大型訓練數據集上進行監督學習，並且使用了從人類反饋中學習的強化學習（RLHF）。此外，文本API也使用了RLHF進行訓練。
+
+### Gemini
+
+- Latest: Gemini 1.5 Pro
+- Gemini Ultra performs better than ChatGPT on 30 of the 32 academic benchmarks in reasoning and understanding it tested on.
+- Effectively processes and integrates data from diff modalities:
+    - Text, audio, image, video
+- Based on a Mixture-of-Experts (MoE) model
+    - Significantly improves efficiency in training and application
+
+接著我們有Gemini，這是源自Google的BART的一個AI模型，現在稱為Gemini。當它發布時引起了很大的轟動，因為它在32個學術基準測試中有30個的表現優於ChatGPT。因此，這引起了很多人的興奮。隨著人們的使用，我們也發現不同的模型在不同類型的任務上有著各自的優勢。
+
+- Based on a Mixture-of-Experts (MoE) model
+    - Combination of multiple small Neural networks known as ‘Experts’ which are trained and capable of handling particular data and performing specialised tasks. 
+    - ‘Gating network’ which predicts which response is best suited to address the request.
+
+![Gemini](./D417.png)
+https://medium.com/google-cloud/essentials-of-gemini-the-new-era-of-ai-efca53293341#:~:text=Gemini%201.5%2C%20unlike%20other%20models,encoder%2Ddecoder%20or%20seq2seq).
+
+一個有趣的事情是，Gemini是基於MoE（專家混合）模型進行訓練的，這是一種由多個小型神經網絡組成的模型，這些網絡被稱為專家，能夠處理不同的任務。我們可能有一個神經網絡非常擅長從網絡上提取圖像，另一個擅長提取文本。然後，我們有一個最終的門控網絡，它會根據請求選擇最適合的專家來回應。
+
+### Where we are (2024)
+
+Recently Taken Off: 
+- LLM boom: ChatGPT, GPT-4, Gemini, open-source models
+- Human alignment and interaction
+    - Reinforcement learning & human feedback
+- Controlling toxicity, bias, and ethics
+- More use in unique applications: audio, art/music, 
+neuro/bio, coding, games, physical tasks, etc.
+    - Speakers will touch (or have touched) on these!
+- Other: diffusion models (e.g. text-to-image/video gen)
+    - Also, Diffusion Transformer (DiT)
+![ChatGPT](./D418.png)
+這就是我們目前的狀況。AI，尤其是自然語言處理（NLP）的大型語言模型，如GPT-4和Gemini等，已經迅速發展起來。許多工作涉及人類的對齊和互動，如RLHF（從人類反饋中學習的強化學習）。目前也有更多的工作在試圖控制模型的毒性偏見和倫理問題，特別是隨著越來越多的人可以使用這些模型，如ChatGPT。
+
+此外，還有更多的獨特應用，如音頻、音樂、神經科學、生物學等方面的應用。我們將有一些幻燈片簡要介紹這些應用，但這些內容主要由我們的演講者來介紹。
+
+還有一類獨立的模型——擴散模型。儘管現在已有擴散Transformer，它將擴散模型中的U-net骨幹替換為Transformer架構，這在文本到視頻生成等方面表現更佳。例如，Sora使用的就是擴散Transformer。
+
+### The Future (What’s Next?)
+
+- Can enable a lot more applications:
+    - Generalist Agents
+    - Longer video understanding and generation, finance + business 
+    - Incredibly long sequence modeling (GPT authors a novel)
+    - Domain-specific “Foundation models” - DoctorGPT, LawyerGPT, …
+    - Potential real-world impacts:
+        - Personalized education and tutoring systems
+        - Advanced healthcare diagnostics, environmental monitoring & protection, etc.
+        - Real-time multilingual communication
+        - Interactive entertainment & gaming (e.g. NPCs)
+接下來會是什麼？
+
+隨著Transformer和機器學習的應用在全球範圍內越來越顯著，這既令人興奮，也有些令人害怕。這些技術可以實現更多的應用，如通用型智能代理、長視頻理解及生成。也許在五到十年內，我們可以只需輸入提示或描述就能生成整個Netflix系列節目。
+
+還有如超長序列建模，這是Gemini目前宣稱能夠處理的領域。他們表示可以處理多達一百萬個詞元，我們將拭目以待這是否能進一步擴展，這非常令人興奮。
+
+此外，還有非常領域特定的基礎模型，例如DoctorGPT、LawyerGPT等，針對任何你可能需要的用例或應用的GPT模型。
+
+這些技術還可能對現實世界產生影響，如個性化教育和輔導系統、先進的醫療診斷、環境監測等，還有實時多語言交流。你可以在中國、日本等地進行實時互動，與每個人交流。
+
+最後，還有互動娛樂和遊戲的潛力。我們可能擁有由Transformer和AI驅動的更真實的NPC（非玩家角色），這將極大地提升遊戲體驗。
+
+### The Future (What’s Missing?)
+- Missing Ingredients (to AGI/ASI?):
+    - Reducing computation complexity
+    - Enhanced human controllability 
+    - Alignment with language models of human brain
+    - Adaptive learning and generalization across domains
+    - Multi-sensory multimodal embodiment (e.g. intuitive physics and commonsense)
+    - Infinite/external memory: like Neural Turing Machines
+    - Infinite/constant self-improvement and self-reflection capabilities
+    - Complete autonomy and long-horizon decision-making
+    - Emotional intelligence and social understanding
+    - Ethical reasoning and value alignment
+那麼，還缺少什麼呢？
+
+我們經常聽到的關鍵詞有AGI（人工通用智能）和ASI（超人工智能）。那麼，要實現這些目標，還缺少什麼呢？以下是我們認為可能需要解決的一些問題。
+
+首先是降低計算複雜度。隨著這些模型和數據集的規模不斷擴大，訓練它們將變得更加昂貴和困難，因此我們需要找到降低成本的方法。
+
+其次是這些模型的可控性，將語言模型與人類大腦的對齊，人類可控性以及跨更多領域的自適應學習和泛化。多感官多模態的具身化將使它們能夠學習直觀的物理知識和人類能夠理解的常識。
+
+由於這些模型，特別是語言模型，主要是基於文本進行訓練的，它們對現實世界並沒有直觀或類人類的理解，因為它們所見的全部都是文本。
+
+無限或外部記憶，以及自我改進和自我反思的能力也是關鍵。像人類一樣，能夠不斷學習和改進自己。
+
+完全的自主性和長期決策能力，情感智力和社會理解，當然還有道德推理和價值對齊，也是實現AGI/ASI所需的重要能力。
+## Major Applications of Transformers
+### Text and Language
+![chatgpt_curve](./D419.png)
+那麼，讓我們來談談大型語言模型（LLMs）一些有趣的應用。目前，我們已經在現實世界中看到了許多應用。其中一個最大的例子就是ChatGPT。它成為了歷史上增長最快的消費者應用程序，迅速風靡全球。所有人都開始使用它，這讓人們意識到AI在現實世界中真實存在。在此之前，只有像我們這樣在斯坦福的專業人士會使用AI，而世界上很多人對AI的了解只是模糊的概念。他們第一次使用ChatGPT時，就覺得：「這東西真的有效。」這讓他們相信AI確實有其實用性。
+### Audio: Speech + Music
+![Audio: Speech + Music](./D420.png)
+現在我們開始在不同的應用中看到這些技術的廣泛應用，比如語音合成等領域。新的模型如Whisper、ElevenLabs等正在涌現。音樂也是一個大行業，這些技術在音樂創作和處理方面也有很大的應用潛力。
+### Vision: Analyzing Images & Videos
+![ViT](./D421.png)
+圖像和視頻也正在開始轉變。我們可以想像，也許五年後，所有的好萊塢電影都可能由視頻模型製作，甚至可能不再需要真人演員。比如，你可能只會有虛擬演員，不需要花費數十億美元前往世界各地拍攝場景。這一切都可以由視頻模型完成。
+
+像Sora這樣的技術，還有目前正在發生的變革，可能會帶來巨大的變化，因為這將影響電影製作、廣告，甚至可能是社交媒體的驅動方式。
+### Vision: Generating Images & Video
+![sora](./D422.png)
+
+看到這些圖像和視頻的真實感已經非常令人著迷，它們幾乎達到了甚至超越了人類藝術家的水準。這使得區分真實和虛假的事物變得非常困難，且非常有趣。
+
+### Robotics, Simulations, Physical Tasks
+![robot](./D423.png)
+另一個非常有趣的應用是將這些模型實體化應用於現實世界。例如，在像《Minecraft》這樣的遊戲中，你可以有一個AI來玩遊戲，我們已經開始看到這樣的情況，AI偽裝成人類並且能夠贏得遊戲。我們正在實時看到這些現象，這些AI在虛擬遊戲中已經達到了一定的超人表現水平。
+
+類似地，在機器人領域，一旦能將AI應用於物理世界，這將會非常令人興奮，因為這將開啟許多應用場景。你可以在家中、工業中擁有物理助手。目前，建造類人機器人已經成為一場競賽。如果你看看特斯拉正在做的事情，或者Figure這家公司在做的事情，大家都非常興奮，想要建造這些能夠在現實生活中幫助你的物理助手。
+
+因此，OpenAI、DeepMind、Meta等公司已經應用和研究了許多有趣的技術和應用，這確實是一個非常有趣的研究和應用領域。
+### Playing Games
+![game](./D424.png)
+### Biology + Healthcare
+![Healthcare](./D425.png)
+我們還看到生物學和醫療保健領域的許多有趣應用。谷歌去年推出了Med-PaLM模型。在上一次課程中，我們實際上請到了這篇論文的第一作者來進行講解。這非常有趣，因為這是一個可以應用於實際醫療的Transformer模型。谷歌目前正在實際醫院中部署這一技術，用於分析患者健康數據、大量病史、醫療診斷、癌症檢測等。
+
+這展示了AI在生物醫學領域的巨大潛力，能夠提升醫療診斷的準確性和效率，並為患者提供更好的醫療服務。
+## Recent Trends and Remaining Weaknesses of LLMs
+
+### Requiring Large Amounts of Data, Compute, and Cost
+- Current LLMs take immense amounts of data, compute, and $ to train
+- Requires training over weeks/months over thousands of GPUs
+- BabyLM challenge: can we train LLMs using similar amounts of data a baby is exposed to while growing up?
+
+接下來，我們將簡要探討近期Transformer研究中的一些趨勢，以及潛在的弱點和挑戰。正如我之前所說，訓練這些模型需要大量的數據、計算資源和成本，可能需要數周或數月的時間，以及數千個GPU的支持。
+
+現在有一個叫做BabyLM挑戰的項目——這個挑戰旨在探討我們是否可以使用類似於嬰兒成長過程中接觸到的文本數據量來訓練大型語言模型（LLMs）。這個挑戰的目的是研究在有限數據的情況下，能否訓練出高效能的模型，並探索更有效的數據使用和模型訓練方法。
+### BabyLM: Children vs. LLMs
+
+- Children are different due to several reasons:
+    - LMs do statistical learning, which requires more data to learn statistical relations between words and get abstraction/generalization/reasoning
+    - Children may learn in smarter, e.g. more explicit compositional/hierarchical manners, learning abstraction/generalization/reasoning more easily
+
+基本上，將大型語言模型（LLMs）與人類進行比較是講者自己研究的一個方面。我認為孩子們的學習方式與LLMs是不同的。我們作為人類學習的方式與LLMs非常不同。LLMs進行的是統計學習，需要大量的數據來實際學習詞語之間的統計關係，以便獲得抽象化、泛化和推理能力。
+
+相比之下，人類學習則更具結構性，可能也更聰明。例如，我們以更組合或層次化的方式學習，這使我們能夠更容易地掌握這些能力。
+
+### BabyLM: Children vs. LLMs
+- Thoughts/ideas from Michael C. Frank’s [tweet](https://x.com/mcxfrank/status/1640379247373197313)
+4-5 orders of input magnitude diff b/w human and LLM emergence
+- Factor 1: Innate knowledge - relates to priors
+- Factor 2: multimodal grounding
+- Factor 3: active, social learning
+- Factor 4: evaluation differences
+
+![BabyLM](./D426.png)
+
+Factor 3: - “peer reflection” (machine-machine interaction) and “human feedback” (machine-human interaction)
+Factor 4: are “benchmarks” really assessing them appropriately?
+其中一位我的教授，Michael Frank，他發了一條推文展示了在人類和LLM的行為出現上，有四到五個數量級的差異。這裡指的是數量級，而不是時間。也就是說，LLM需要的數據量比人類多出成千上萬到上百萬倍。
+
+這可能是因為人類具有先天的知識，這與先驗有關。當我們出生時，可能由於進化，我們的大腦中已經內建了一些基本能力。其次是多模態的基礎，我們不僅僅從文本中學習，還通過與世界互動，通過視覺、嗅覺、聽覺、觸覺等方式來學習。第三是積極的社會學習，我們在成長過程中通過與父母、教師和其他孩子的交談來學習，不僅是基本的知識，還包括諸如對待他人友善等人類價值觀。
+
+這些都是LLM在僅僅依賴大量文本數據進行訓練時無法真正接觸到的。
+
+### Minified LLMs and On-Device LLMs
+- Big trend of using LLMs for applications and everyday purposes
+- A requirement is ability to run quickly and easily on-devices
+- AutoGPT and ChatGPT “plug-ins”
+- Right now, work on smaller open-source models (e.g. LLaMA, Mistral)
+- In the future: ability to finetune and run models locally, even on your phone!
+    - Getting more possible due to more open-source, but still very large and $
+
+這與趨勢相關的是朝向更小的開源模型的發展，這些模型可能甚至能在我們日常設備上運行。例如，越來越多的工作集中在AutoGPT以及ChatGPT插件上。像LLaMA和Mistral這樣的小型開源模型也是其中的一部分。
+未來，我們希望能夠在本地進行更多的模型微調和運行，甚至有可能在智能手機上實現。這將使得強大的AI工具變得更加可訪問和便捷，讓更多的人能夠使用和受益於這些技術。
+### Memory Augmentation & Personalization
+- Weakness of LLMs is that they are frozen in knowledge at a particular point in time, and don’t augment knowledge “on the fly”
+- Hope to be able to remember the information while chatting with a particular user, both within the same conversation and across conversations
+    - Would help with context window limits and adapting to the particular user
+- Widescale: somehow update the model “on the fly” with info from several users
+- Further, they usually do not adapt their talking style and persona to the particular user, which could have applications such as mental health therapy
+- Potential approaches:
+    - Memory bank - not feasible/efficient with larger amounts of data
+    - Prefix-tuning approaches (finetune a small part of the model) - too expensive
+    - Some prompt-based approach - do not see how this would be possible to change the model itself, but can at least help it “personalize” to the user
+    - RAG: retrieval-augmented generation (data store, augment context each time)
+        - Relies on high-quality external data store
+        - Typically not end-to-end
+        - Not within the “brain” of the model but outside:
+            - Suitable for knowledge/facts, but not fundamental capabilities and skills
+
+另一個研究和工作的領域是記憶增強和個性化。目前大型語言模型的一個重大弱點是它們的知識在某一時間點上是固定的。它們無法在與用戶交談時動態增加知識，這些信息不會存儲在它們的大腦（參數）中。下一次開始新對話時，很有可能它們不會記得你之前說過的任何事情。
+
+未來的一個目標是實現大規模的記憶增強和個性化。即在與全球數百、數千甚至數百萬用戶交談時，動態更新模型的知識，不僅適應他們的知識需求，還包括談話風格和角色的個性化，這樣的能力稱為個性化。這可以應用於很多領域，例如心理健康治療等。
+
+一些潛在的方法包括：
+- **記憶庫**：儲存信息，但對於大量數據來說，這並不是很可行。
+- **前綴調整方法**（prefix-tuning）：只微調模型的一小部分，但即使是微調大模型的一小部分，也會非常昂貴。
+- **基於提示的上下文學習**：這不會改變模型本身，並且很可能不會在不同對話之間傳遞。
+- **檢索增強生成**（RAG）：這與記憶庫相關，使用數據庫中的信息作為上下文增強LLM的輸出。這依賴於高質量的外部數據庫，通常不是端到端的。其主要特點是這些信息不在模型的內部，而是在外部。它適合於知識或基於事實的信息，但不太適合提升模型的基本能力或技能。
+
+### Pretraining Data Synthesis & Selection
+
+- Lots of work these days on synthetic data generation (e.g. using GPT-4) to train other models, e.g. smaller models or peer models
+- More work on understanding how to best synthesize and select the pretraining data
+- Related to model distillation: knowledge from a large complex model (Teacher) is transferred to a smaller, more efficient model (student)
+    - Goal: achieve similar performance with less computational cost
+- Example: Microsoft Phi models (“Textbooks Are All You Need!”)
+    - https://arxiv.org/abs/2306.11644
+- Nathan Lambert’s [Summary on Synthetic Data](https://twitter.com/natolambert/status/1729893527667253431) in his Interconnect Newsletter
+
+目前，還有很多工作集中在預訓練數據的合成上，特別是在ChatGPT和GPT-4推出之後。與其從人類那裡收集數據，這既昂貴又耗時，許多研究人員現在使用例如GPT-4這樣的大型模型來生成數據，用於訓練其他模型。
+
+例如，模型蒸餾（model distillation）技術，就是使用來自像GPT-4這樣的大模型的數據來訓練較小和能力較弱的模型。這種方法可以幫助在資源有限的情況下，訓練出性能優異的模型，並使得這些模型能夠在較低的計算資源下運行。
+
+### Microsoft Phi-2 Model
+
+- Phi-2, a 2.7 billion-parameter model, excels in reasoning and language understanding, challenging models up to 25x larger
+- Emphasizes "textbook-quality" training data and synthetic datasets for teaching common sense and general knowledge
+    - Training data mix: synthetic datasets to teach the model commonsense reasoning and general knowledge, including science, daily activities, ToM, etc.
+    - Further carefully selected web data filtered by educational value + content quality
+- Phi-2 designed as a resource for research on interpretability, safety improvements, and fine-tuning across tasks
+
+例如，微軟的Phi模型就是來自他們的論文《Textbooks Are All You Need》中介紹的一個案例。Phi模型的第二版擁有27億個參數，在語言推理方面表現出色。它在性能上挑戰或接近了比它大25倍的模型，這非常令人印象深刻。
+
+他們的主要結論是，數據的質量和來源極其重要。他們強調了教科書質量的訓練數據和合成數據的重要性。他們生成了合成數據，用於教導模型常識推理和一般知識，涵蓋了如科學、日常活動、心智理論等內容。然後，他們從網絡上收集了額外的數據，這些數據經過篩選，以確保其教育價值和內容質量。
+
+這使得他們能夠以更高的效率訓練出一個更小的模型，同時能夠與比它大25倍的模型競爭，這再次顯示了其驚人的表現。
+
+### New Knowledge or “Memorizing”?
+
+- When LLM is prompted and says something, is what it says truly “novel/new”?
+- Innovation vs. Regurgitation: ongoing debates about whether LLMs can truly invent new ideas or are primarily recombining existing knowledge (since learn patterns from lots of text)
+- Test-time Contamination: models might regurgitate rather than synthesize information due to overlap between training and evaluation data, leading to misleading benchmark results
+- Cognitive Simulation: some argue LLMs mimic human thought processes, suggesting a form of "understanding," while others see this as simply “sophisticated pattern matching”
+- Ethical and Practical Implications: this impacts trustworthiness, copyright issues, and the educational use of LLM outputs
+    - E.g. copyright lawsuit by New York Times (NYT) on OpenAI!
+
+另一個爭論的領域是大型語言模型（LLMs）是否真的在學習新知識。當你要求它們做某些事情時，它們是在從零開始生成內容，還是僅僅在重複它們之前記住的東西？這個界限變得模糊不清，因為LLMs學習的方式是從大量文本中學習模式，你可以說這在某種程度上是一種記憶。
+
+還存在測試時間污染的可能性。模型在評估時可能會重複訓練期間見過的信息，這可能導致誤導性的基準測試結果。
+
+此外，還有認知模擬的問題。很多人認為LLMs模仿了人類的思維過程，而另一些人則認為這只是複雜的模式匹配，遠不如人類的思維過程那麼複雜、生物化或精緻。
+
+這也引發了許多倫理和實際的限制問題。例如，最近紐約時報對OpenAI提起的版權訴訟，聲稱OpenAI的ChatGPT基本上是在重複紐約時報的現有文章。這再次表明，LLMs可能在訓練期間記住了文本，而不是完全從零開始合成新信息。
+
+### Continual Learning
+
+- AKA, infinite and permanent fundamental self-improvement
+- Similar to humans: we constantly learn everyday from every interaction
+    - Don’t need to “finetune ourselves” once in a while
+- Very challenging, could be the key to AGI!
+- Currently work on: finetune a small model based on traces from better model or same model after filtering those traces
+    - More like re-training and distillation than true “continual learning”
+- Work showing that reasonably sampled data with interjected augmented reasoning and further filtering can be used to further finetune or optimize (e.g. using DPO)
+    - E.g. [UltraChat-200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k) and Zephyr
+    - E.g. [LLMs Can Self-Improve](https://arxiv.org/abs/2210.11610) paper
+
+另一個主要的挑戰來源，可能有助於縮小當前模型和最終實現AGI之間的差距，就是持續學習（continual learning）這一概念，也被稱為無限且永久的自我改進。
+
+人類能夠不斷學習，每天從每次互動中獲取知識。我現在與你交談並進行這次講座時也在學習。我們不需要對自己進行微調，也不需要每兩個月坐在椅子上讓別人把整個互聯網的信息讀給我們。目前，有關於基於更好模型的痕跡或者是同一模型的過濾後痕跡來微調小模型的工作。然而，這更接近於重訓練和蒸餾，而不是人類真正的持續學習。
+
+因此，我認為這至少是一個非常令人興奮的研究方向。
+
+### Interpretability of LLMs
+
+- Enormous number of parameters trained on tons of data → “huge black-box” that is hard to interpret and understand
+- More work on interpretability is required
+- Would allow us to better understand models, leading to better ideas of what/how to improve, easier control, and better alignment/safety
+- Mechanistic interpretability: understand how individual components + operations in an ML model contribute to its overall decision-making process
+    - Goal: unpack the "black box" of models for clearer insight into how they work
+
+另一個挑戰領域是解釋這些擁有數十億參數的巨大LLMs。它們本質上是巨大的黑箱模型，很難確切理解其內部發生的具體過程。如果我們能更好地理解這些模型，就能知道我們應該改進什麼，並能更好地控制這些模型，從而可能實現更好的對齊和安全性。
+
+這方面的工作稱為「機制可解釋性」（mechanistic interpretability），它試圖理解機器學習模型中的個別組件以及操作如何對其整體決策過程產生貢獻。通過這種方式，我們希望能解開這個黑箱的秘密。
+
+### Model Editing & Mechanistic Interpretability
+
+- Also work on mechanistic interpretability and model editing (e.g. edit specific nodes)
+- Relevant paper: https://arxiv.org/abs/2202.05262
+- Development of a causal intervention method to trace decisive neuron activations for model factual predictions
+- Rank-One Model Editing (ROME) to modify model weights for updating factual associations
+- Mid-layer feedforward modules play a significant role in storing factual associations
+    - Manipulation of these can be a feasible approach for model editing
+
+![Mechanistic Interpretability](./D427.png)
+繼續探討機械解釋性和持續學習相關的概念，就是模型編輯（model editing）。這是一個較新的研究領域，目前研究還不多，因為這非常具有挑戰性。基本上，這個研究方向在於我們是否能在不重新訓練模型的情況下，編輯模型中的特定節點。
+
+我提到的一篇論文開發了一種因果干預方法，用於追踪模型在事實預測時的神經激活，並提出了一種稱為Rank-One Model Editing（ROME）的方法，能夠修改非常特定的模型權重以更新事實關聯。例如，將「渥太華是加拿大的首都」這一事實修改為其他內容。他們發現不需要重新微調模型，只需修改非常特定的節點，就能永久地將這些信息注入模型中。
+
+他們還發現，中層前饋模塊在存儲這些事實信息或關聯中起到了非常重要的作用。通過操縱這些節點，可以實現模型編輯。
+
+我認為這是一個非常有趣的研究方向，具有潛在的長期影響。
+
+### Model Modularity + Mixture of Experts (MoE)
+- Mixture of Experts (MoE) very prevalent these days in LLMs:
+    - E.g. GPT-4, Gemini, etc.
+- Goal: have several models/“experts” work together to solve a problem
+    - Each expert may be specialized for a task/purpose
+    - Try to use the diff skill-sets together to arrive at a generation
+- Research on how to better define and connect these “experts”
+
+![MoE](./D428.png)
+
+- Single model variation (?)
+    - Potential to segment/compartmentalize a single NN model into different compartments with their own focus, similar to the human brain? 
+        - E.g. part of the network for fact-based info, another for spatial reasoning, another for mathematical + logical reasoning, etc.
+    - Maybe add more layers on top of the foundation model
+        - Particular layers correspond to something (e.g. new domain), and try to tune these new layers specifically
+另一個研究方向是「專家混合」模型（Mixture of Experts）。這在當今的大型語言模型中非常普遍，例如GPT-4和Gemini。這種方法是讓多個模型或專家一起合作解決問題，並得出最終的生成結果。目前有很多研究在探討如何更好地定義和初始化這些專家，並將它們連接起來以得出最終結果。
+
+我在想，是否有可能像人類大腦一樣，將這些專家的功能整合到一個單一模型中？例如，人類大腦有不同的部分負責不同的功能，一部分可能更專注於空間推理，一部分負責物理推理，一部分處理數學邏輯推理等。也許可以找到一種方法來分割單一的神經網絡或模型，使其具有類似的功能。
+
+例如，可以在一個基礎模型上添加更多的層，然後只微調那些特定層以實現不同的目的。這樣做可以讓模型在不同的任務中發揮不同的作用，就像人類大腦的不同部分專注於不同的功能一樣。
+
+### Self-Improvement / Self-Reflection
+
+- Found models can reflect on their own output to iteratively improve/refine them
+- Examples of works: [ReAct](https://arxiv.org/abs/2210.03629), [Reflexion](https://arxiv.org/abs/2303.11366), [Self-refine](https://arxiv.org/abs/2303.17651)
+- Training LMs with Language Feedback: https://arxiv.org/abs/2204.14146
+- Tried [multiple layers/levels](https://www.reddit.com/r/singularity/comments/122cqg0/selfreflection_on_selfreflection_llm_agent/) of self-reflection… showing continual improvement
+    - Hypothesize that results will improve to a certain point and then degrade, and depends both on the model scale and the task at hand
+    - Some folks believe that AGI is a “constant state of self-reflection”
+- Can investigate further improvements to chain-of-thought reasoning and self-reflection
+![Self-Improvement / Self-Reflection](./D429.png)
+
+與持續學習相關的還有自我改進和自我反思。最近的許多研究表明，模型，尤其是大型語言模型（LLMs），可以反思自己的輸出，進行迭代改進。這種改進可以通過多層次的自我反思來實現，類似於一種小規模的持續學習。
+
+有些人認為AGI（人工通用智能）基本上是一種持續的自我反思狀態，這與人類的行為非常相似。通過這樣的過程，模型可以不斷提升自身的性能和準確性，就像人類通過反思和學習來提升自己一樣。
+
+### Hallucination Problem
+
+- Model “does not know when it does not know”
+- Due to sampling procedure, generates text and sounds confident about it, even when littered with factual errors
+- Can enhance through retrieval (e.g. through Google), and also:
+    - Internal-based “fact verification”
+    - Output verification and regeneration (self-refinement/improvement)
+    - Modifying the token sampling to shy away from hallucination
+    - Some way to “predict hallucination” before generation and prevent it
+- “Confidence” rating would also help check the reliability of the output
+最後一個大問題是幻覺問題，當模型不知道自己不知道的事情時會出現。由於採樣過程的原因，有很高的可能性，比如說，你可能也曾使用過ChatGPT，有時它生成的文本非常自信，但實際上是錯誤的、事實不正確或毫無道理。
+
+我們可以通過不同的方法來增強這方面的性能。可能通過基於內部的事實驗證方法，利用置信度分數來實現。有一個稱為模型校準（model calibration）的研究方向，就是專注於這方面，潛在地通過驗證和再生成輸出來改進。如果模型發現其輸出是不正確的，它可以被要求重新生成。
+
+當然，還有像RAG（檢索增強生成）這樣的方法，可以從知識庫中檢索相關信息，這也是人們研究的一個潛在解決方案，用於減少幻覺問題。通過這些方法，我們希望能夠減少模型生成錯誤信息的情況，提高模型的準確性和可靠性。
+
+### Reasoning: Sufficient? Intermediate Guidance Helps…
+
+- Chain-of-thought (CoT) - series of intermediate reasoning steps
+- Shown to improve LLM performance on complex reasoning tasks
+- Inspired by human thought process: decompose multi-step problems
+- Also provides an interpretable window into behavior of the model (how it arrived at an answer, where it goes wrong in its reasoning path)
+- CoT exploits the fact that deep down in the model's weights, it knows more about the problem than just prompting it to get a response
+
+Ref: https://arxiv.org/abs/2201.11903
+
+最後，Emily將介紹一些有關思維鏈推理的內容。
+
+思維鏈推理（Chain of Thought）是一個非常有趣的概念，我認為它結合了認知模仿和解釋性研究。思維鏈的想法是，我們中的每一個人，除非有一些非凡的照相記憶，通常都是一步一步地思考事情。如果我要求你將兩個10位數相乘，你可能需要將這個問題分解為中間的推理步驟來解決。
+
+一些研究人員認為，若對大型語言模型進行相同的操作，強迫它們通過推理過程來思考和組織其想法，可能有助於提高它們的準確性和結果。因此，思維鏈利用了這個理念，模型內部的權重知道有關問題的更多信息，而不僅僅是提示模型並讓其重複記住的答案。
+
+這種方法可以讓模型在回答問題時不僅僅是回憶已知的答案，而是通過逐步推理來生成更加準確和有意義的答案。這不僅有助於提高模型的性能，還能提高它們的解釋性，使我們能更好地理解模型的推理過程。
+
+### Chain-of-Thought Reasoning
+
+![Chain-of-Thought Reasoning](./D430.png)
+
+Ref: https://arxiv.org/abs/2201.11903
+
+思維鏈推理的例子在右側展示。左側是標準的提示方式，即當我給你一個複雜的問題時，僅僅提供問題和答案，而不解釋如何解決問題。這種方式可能會讓問題變得難以理解。
+
+相比之下，思維鏈推理則不同。當你第一次接觸到這個問題時，我會一步步帶你走過解決的過程。這樣做的目的是希望你在理解如何思考問題的框架後，能夠產生更準確的答案。
+
+這種方法有助於模型更好地理解問題的背景和推理過程，而不僅僅是給出一個答案。通過這種方式，模型能夠提供更符合邏輯和更具解釋力的答案。
+
+### Improving Chain-of-Thought Reasoning
+
+- CoT results in performance gains for larger LMs, but still remain a non-negligible fraction of errors
+- CoT error breakdown:
+    - 8% from just a calculator error
+    - 16% from symbol mapping error
+    - 22% from “one missing step” error
+    - Remaining errors due to semantic understanding issues and incoherent CoT
+- We can investigate methods to address above errors and improve CoT in general
+
+Ref: https://arxiv.org/abs/2201.11903
+
+思維鏈推理對大型語言模型的性能提升非常顯著。這也是一種新出現的能力，因此我們在較小的模型中並沒有看到同樣的性能提升。
+
+正如我之前提到的，解釋性非常重要。通過觀察模型的輸出，我們可以看到它們的推理過程和最終答案。這樣，我們可以發現模型出錯的地方，例如某些錯誤的推理步驟。我們能夠將思維鏈推理中的錯誤分解成不同的類別，這有助於我們更精確地定位問題出在哪裡，以及如何直接解決這些問題。
+
+這種解釋性使得我們能夠更好地理解模型的內部運作，並且有針對性地改進模型的性能和準確性。
+
+### Chain-of-Thought Reasoning for Smaller Models
+
+- Currently, CoT works effectively for models of approx. 100B params or more
+- Initial paper found “one-step missing” and “semantic understanding” CoT errors to be the most common among smaller models
+- 3 potential reasons:
+    - Fail at even relatively easy symbol mapping tasks
+    - Seem to have inherently weaker arithmetic abilities
+    - Often had logical loopholes and did not arrive at a final answer
+- Improve CoT for smaller models → significant value to the research community
+
+Ref: https://arxiv.org/abs/2201.11903
+
+目前，思維鏈推理在擁有約1000億參數或更多的大型模型中效果非常顯著。這些模型的規模非常大。
+
+為什麼會這樣呢？一篇初期的論文發現，小型模型中最常見的錯誤是缺少某一步驟和語義理解錯誤。你可以想像，比如在乘法過程中忘記執行某個步驟，或者根本不理解乘法的概念。
+
+一些潛在的原因可能是小型模型即使在相對簡單的映射任務上也會失敗，它們似乎本質上在算術能力上較弱，並且可能存在邏輯漏洞，導致無法得出最終答案。也就是說，儘管所有的推理過程都是正確的，但由於某些原因，最終未能達到正確答案。
+
+因此，一個有趣的研究方向是改進小型模型的思維鏈推理能力，這樣也能讓更多人有機會參與並解決有趣的問題。這不僅可以提高模型的性能，還能使更多資源有限的研究人員參與其中。
+
+### Generalizing Chain-of-Thought Reasoning
+
+- Find CoT to have a more rigid definition and format
+- Further, its advantages are for particular domains and types of questions
+    - Task is challenging and requires multi-step reasoning
+    - Scaling curve of the problem/task is relatively flat
+- Humans think through different types of problems in multiple ways
+- Our “scratchpad” is more flexible and open to different reasoning structures
+- Can maybe generalize CoT to be more flexible somehow
+
+那麼，我們該如何實現這一點呢？一個想法是將思維鏈推理進行泛化。並不是所有問題的推理方式都是相同的，有多種方法可以解決一個問題，而不僅僅是逐步分解。因此，我們可以嘗試將思維鏈推理的概念變得更加靈活，以適應不同的推理方式。
+
+這種泛化可以包括探索不同的推理策略和思維過程，而不僅限於線性的步驟分解。例如，我們可以考慮使用多路徑推理、多層次分析等方法，使模型能夠更靈活地處理各種問題。通過這種方式，我們可以改進小型模型的推理能力，使其能夠更好地應對不同類型的任務。
+
+### Tree of Thoughts
+
+- ToT: “consider multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary to make global choices”
+
+![Tree of Thoughts](./D431.png)
+
+一個例子是「思維樹」（Tree of Thoughts）的概念。思維樹考慮了多種不同的推理路徑，並通過評估這些選擇來決定下一步的行動方向。這與我們常見的一些模型架構相似，比如可以前瞻並回溯的方式。
+
+具體來說，這種方法允許模型在面臨問題時不僅僅是沿著一條單一路徑推理，而是可以考慮多種可能性，並在最終產生更準確的輸出。這就像我們在思考一個問題時，不僅僅考慮一個解決方案，而是探索多種可能的解決方案，最終選擇最優的那一個。這種方法有助於提高模型的靈活性和準確性。
+
+### Socratic Questioning
+
+- “Divide-and-conquer fashion algorithm that simulates the self-questioning and recursive thinking process.”
+- “Self-questioning module using a large-scale LM to propose subproblems related to the original problem as intermediate steps and recursively backtracks and answers the sub-problems to reach the original problem.”
+![Socratic Questioning](./D432.png)
+
+另一個想法是蘇格拉底式提問（Socratic questioning）。這個概念是通過分而治之的方式實現自我提問和自我反思的想法，如同Steven提到的。這種方法涉及一個自我提問模塊，利用大型語言模型來提出與原始問題相關的子問題，然後遞歸地回溯並回答這些子問題，最終解決原始問題。
+
+這與最初的思維鏈概念相似，不同之處在於，蘇格拉底式提問不僅僅是將所有步驟列出來，而是讓語言模型反思如何將問題分解，如何回答這些子問題並最終得出答案。這種方法可以促使模型更深入地理解問題的結構和本質，從而更有效地找到解決方案。
+
+## From Language Models to AI Agents
+
+### Introduction
+
+- Actions and Emergent Agent Architectures
+- Building Human-like AI Agents 
+- Computer Interactions using AI
+- Long-Term Memory and Personalization
+- Agent to Agent communication
+- Future Directions for Autonomous AI Agents
+
+接下來，讓我們深入探討一些在2024年變得日益重要的有趣主題。去年，我們見證了語言模型的爆炸性發展，尤其是GPT-4的問世。如今，我們正邁向人工智慧代理的時代。探討代理與模型之間的差異將會是一個饒富趣味的過程，我將會談到許多面向，例如動作、長期記憶、溝通等等。
+
+### Building AI Agents
+
+1. Why?
+2. How?
+3. Ingredients?
+4. What can they do?
+
+Key thesis: Humans will communicate with AI using natural language and AI will operate machines allowing for more intuitive and efficient operations
+
+![AI Agents](./D433.png)
+[Software 3.0](https://divgarg.substack.com/p/software-3?r=ccbhq&utm_campaign=post&utm_medium=web)
+
+讓我們從最根本的問題開始：為什麼我們要構建AI代理？
+
+仔細想想這個問題。我有一個大膽的假設：未來，人類將使用自然語言與AI進行交流，而AI將操控我們的機器，從而實現更直觀、更有效的操作。
+
+想像一下一台筆記型電腦，如果你把它展示給一個可能從未用過電腦的孩子，他們可能會問：「為什麼我必須用這個盒子？為什麼我不能直接跟它說話？為什麼它不能更像人類一樣，我可以直接告訴它做什麼，然後它就可以幫我完成工作？」
+
+這似乎是更符合人類習慣的介面，也是未來世界可能的發展方向。我們將不再需要點擊或打字，而是像與人交談一樣，用自然語言與AI溝通，然後AI就會去完成我們的任務。
+
+事實上，講者寫了一篇關於這個主題的部落格文章，標題是「軟體3.0」，如果你有興趣可以去看看。
+
+
+###  AI Agents
+
+1. Why?
+A single call to a large Foundation AI model is not enough. A lot more can be unlocked by building AI systems
+
+2. How?
+Using model chaining, reflection & other mechanisms
+
+3. Ingredients?
+Memory, context length, personalization, actions, internet access…
+
+4. What can they do?
+
+不過，為什麼要開發代理呢？
+
+你想要代理嗎？事實證明，單純調用大型基礎AI模型往往不夠。透過建構系統，我們可以做到更多。所謂的系統，意味著執行更多操作，如模型鏈接、模型反思和其他機制。這需要許多不同的元素，像是記憶體、大上下文長度，還需要實現個人化、動作執行和網際網路訪問。透過這種代理，我們可以實現這些目標。
+
+![AI Agents framework](./D434.png)
+
+這是一張圖表，解析了智能代理的不同組成部分，來源於Lillian Weng，她是OpenAI的一位高級研究員。若要構建真正強大的代理，就需要將其視為一種新型計算機，擁有各種不同的組件。
+
+首先，你需要考慮如何建立記憶系統，包括長期記憶和短期記憶。接著，你需要考慮如何進行規劃，以及如何實現反思。如果出現錯誤，該如何糾正？如何實現思維鏈？如何分解目標？例如，如果我說「幫我訂一次去意大利的旅行」，代理如何將這個任務分解為子目標？
+
+此外，還需要能夠將所有這些規劃和計劃付諸行動，這一點非常重要。要實現這一切，需要使用工具。比如說，計算器、日曆或代碼解釋器等現有的工具。這類似於我們人類使用計算器的方式。我們希望AI能夠使用現有的工具，從而變得更高效、更強大。
+
+### AI Agent Passing the Online CA Driving Test
+![AI Agent Passing the Online CA Driving Test](./D435.png)
+這是一個實際演示案例，來自我的公司，展示了智能代理在現實世界中的應用。我們讓代理通過了加利福尼亞州的在線駕駛考試。這是一個實時的考試演示，參與者可以在家裡進行。測試中，參與者的手放在鍵盤上方，並被網絡攝像頭錄製，同時也進行了屏幕錄製。DMV（車輛管理局）要求參與者在電腦上安裝特殊的軟件來檢測是否不是機器人，但代理仍然能夠完成考試。
+
+有趣的是，我們創造了這個案例，成為第一個在加利福尼亞州獲得駕駛許可的AI。在演示中，參與者的手放在鍵盤上方，代理運行在筆記本電腦上，回答所有問題。整個過程完全自動化，這次測試大約有40個問題，代理可能犯了兩三個錯誤，但最終成功通過了整個測試。
+
+這次演示非常有趣，我們在考試後通知了DMV。這個案例展示了智能代理可能帶來的許多有趣應用，這次測試也成為了一個技術嘗試，結果非常有趣。
+
+### Why human-like AI Agents?
+
+1. Can do what you can do: Able to use existing interfaces designed for humans & operate outside programmatic boundaries
+
+2. Digital extension of you: Can act as an extension of the user and act on their behalf
+
+3. Less-restrictive boundaries: Can handle logins, payments, etc. and interact with services without any API restrictions
+
+4. Simple action space: Need only click & type action primitives 
+
+5. Self-learning: Can learn from the user and self-improve with more interactions
+
+可以想象，一旦我們擁有這些能力可供所有人使用，將會有許多不同的事情可以實現。這也引發了一個問題：為什麼我們要構建更類似人類的代理？我認為這個問題非常有趣，因為它類似於「為什麼我們要建造類人機器人？」的問題。為什麼不建造不同類型的機器人？為什麼我們想要類人機器人？同樣的，為什麼我們需要類似人類的代理？
+
+顯然，這個問題非常有趣，因為很多技術是為人類設計的，我們可以重用現有的基礎設施，而不是建造新的東西。因此，使用現有技術來部署這些代理變得非常有趣。
+
+其次，這些代理可以成為你的一個數字延伸，它們可以了解你的喜好、偏好，知道你喜歡什麼、不喜歡什麼，並能夠代表你行動。它們的限制較少，因此能夠處理登錄、支付等事務，而這些在使用API時可能更困難。如果是基於計算機的控制，這些操作更像是人類的行為，那麼就更容易實現。
+
+你可以想象，這個問題也在根本上更簡單，因為行動空間僅限於點擊和打字，這本身就是一個相對有限的行動空間。因此，相比於構建一個更通用的系統，這是一個更簡單的問題。
+
+另一個有趣的地方是，你可以教導這些類人代理。你可以教它們如何做事情，它們可以被動地記錄你的行為並從中學習，然後不斷改進。這也提供了一種有趣的方式來隨著時間的推移提升這些代理的能力。
+
+### 5 levels of Autonomy
+
+![5 levels of Autonomy](./D436.png)
+
+當我們談論智能代理時，有一個人們喜歡使用的圖譜，稱為「五個不同的自動化等級」。這個概念最初來自於自動駕駛汽車。這個系統分為L0到L5。
+
+在L0到L2的等級中，人類仍然是主要的控制者。例如，人類駕駛汽車，可能會有一些部分自動化的功能，比如自動輔助功能。當到達L3時，情況開始變得有趣。L3等級下，雖然車內仍有一名駕駛員，但大多數情況下，汽車可以在高速公路或大多數道路上自行駕駛。
+
+L4等級下，仍然有駕駛員在車內，但汽車進行所有駕駛操作。這可能類似於你開特斯拉的自動駕駛功能，它接近於L4自動駕駛。L5等級基本上不需要駕駛員。汽車可以獨立處理所有系統部分，沒有任何人工干預的需求。這就像現在Waymo正在做的事情，如果你在舊金山乘坐Waymo，你會體驗到L5等級的自動駕駛汽車，完全由AI進行駕駛。
+
+同樣的概念也適用於智能代理。你可以想像，如果你正在構建一個L4等級的能力系統，那麼仍然有一個人在系統中監控，以確保沒有問題。這時仍然存在一些瓶頸。
+
+但是，如果能夠達到L5等級的代理自動化，那就意味著你可以完全依賴代理來完成任務。例如，你讓代理預訂航班，它會完成；你讓它訂購某樣東西，它會執行。這些所有的事情都可以自動完成，無需人類的介入。當我們能夠從L4過渡到L5，不再需要人類的介入時，事情就會變得非常有趣。
+
+## Computer Interactions
+
+### Agent Computer Interaction
+
+![Agent Interaction](./D437.png)
+在構建智能代理時，主要有兩條路線可供選擇。第一條路線是基於API的控制，可以通過現有的API來控制各種功能。例如，OpenAI正在通過ChatGPT插件進行這方面的嘗試。加州大學伯克利分校（Berkeley）也有相關的研究，例如一個名為Gorilla的項目，這個項目訓練了一個基礎模型來控制多達10,000個API。這個方向有很多有趣的發展。
+
+第二條路線是直接與計算機進行交互，這方面有不同的公司在進行探索。我們自己也在進行相關的嘗試。此外，還有一個名為Adept的初創公司，正在嘗試模擬人類的交互方式。這種方式更像是讓代理與計算機環境直接互動，而不僅僅是通過API來控制。
+
+### Agent Action API: An universal API for computer interaction
+![Agent Action API](./D438.png)
+這是一個展示代理的潛力的例子。我們這裡有一個代理，我們讓它去Twitter發一篇帖子。這個過程中，代理控制整個計算機進行操作。一旦完成後，它可以給我發回一個回應，你可以在這裡看到。
+
+這樣的應用非常有趣，因為如果有這樣的代理，你實際上不需要API。當我有一個可以控制我的電腦、控制網站、幾乎以類似人類的方式進行任何操作的代理時，你就不再需要API，因為這變成了一個可以進行任何控制的抽象層。
+
+這樣的代理一旦開始在現實世界中工作，將會非常令人著迷，並且我們將會看到技術方面的許多變革。
+
+## Memory & Personalization
+
+### AI Models as Neural Compute Unit
+![AI Models as Neural Compute Unit](./D439.png)
+好的，接下來我們討論關於智能代理的另一個有趣主題：記憶。
+
+一個好的思考模型的方法是將其類比為計算芯片。這裡的過程是，你有一些輸入的令牌，這些令牌是自然語言定義的，作為模型的輸入。然後，你會得到一些輸出的令牌，同樣是自然語言。
+
+例如，對於GPT-3.5，令牌長度大約是8,000個。隨著GPT-4，這個長度變成了16,000甚至28,000。因此，你可以想像這個令牌大小或指令大小是由神經網絡驅動的計算單元。
+
+這基本上就是你可以想像的GPT-4，它就像一個CPU，接收一些自然語言定義的輸入令牌，進行一些計算，然後輸出一些令牌。這其實與你思考記憶芯片的方式類似。
+
+例如，這裡我展示了一個MIPS32處理器，這是最早期的處理器之一。它的運作方式是接收二進制的輸入和輸出令牌，比如0和1。類似地，我們現在所做的事情是處理自然語言，進行非常相似的處理，但只是應用於自然語言上。
+![looped transformer](./D440.png)
+如果進一步思考這個類比，我們可以考慮如何將我們在構建計算機、CPU和邏輯方面的知識概括到自然語言中。因此，你可以開始思考當前處理器和計算機芯片的運作方式。這些系統有指令、有記憶、有變量，並且逐行運行這些二進制指令序列以輸出代碼。
+
+你可以以類似的方式思考Transformer，它可以作為計算單元，你可以逐行傳遞某些指令。每條指令可以包含一些基本的操作定義，例如用戶命令。這些指令可能包含從外部檢索的記憶部分，例如個性化系統，還有一些變量。然後你可以逐行運行這些指令。
+
+這是一個很好地理解這類系統如何工作的方式。你可以想象，未來可能會出現新的編程語言，這些語言專門用於對類似Transformer的系統進行編程。這些編程語言可能專注於自然語言處理、記憶管理和指令執行，為這些新型計算系統提供更靈活和高效的操作。
+
+### Long-term memory
+
+![Long-term memory](./D441.png)
+在談到記憶時，傳統上我們會把記憶想像成一個磁碟，這是一種持久的存儲方式。當電腦關機時，你會將所有數據從RAM保存到磁碟，然後可以在需要時重新加載這些數據。我們希望在AI和智能代理中實現類似的功能，提供存儲和檢索數據的機制。
+
+目前，我們通過嵌入（embeddings）來實現這一點。你可以將任何PDF或其他你關心的模態轉換為嵌入，並將這些嵌入存儲在向量數據庫中。當你需要訪問記憶時，你可以加載相關的嵌入部分，作為指令的一部分，然後輸入模型。
+
+這是我們在AI領域中思考記憶的方式，本質上是通過檢索模型來存儲和檢索記憶，而嵌入則是用來編碼記憶的格式。目前，我們通常使用簡單的k近鄰（k-NN）方法來實現這一點，即簡單的最近鄰搜尋，這種方法效率不高，無法很好地泛化，也不易擴展。
+
+還有很多開放的問題需要解決，尤其是層次結構和時間一致性方面的問題。因為很多記憶數據都是時間序列數據，存在許多時間相關的部分。數據中也通常有很多結構，可以利用這些結構來進行處理，比如圖結構。此外，還有很多關於在線適應的問題需要解決，因為大多數數據不是靜態的，總是會學習新事物，適應新的變化。
+
+一個很好的參考模型可能是人類大腦的工作方式。例如，像海馬體這樣的大腦區域，至今人們仍未完全理解其工作原理，但它涉及到即時學習新事物、創建新記憶、適應新記憶等方面。
+
+我認為，隨著時間的推移，這一研究領域的發展將非常有趣。
+
+### Personalization
+- User-Agent Alignment Problem: Enable agent to take actions that are aligned with the user preferences
+
+- Everyone has different prefs & likes/dislikes:
+    - Explicit: allergies, favourite dishes, flight seat prefs, …
+    - Implicit: choice between brands, out of 10 items in a listing which user likes better
+
+同樣，記憶問題的一個非常相關的方面是個性化。如果現在你有一個代理為你執行任務，你希望這個代理實際上了解你的喜好和不喜歡的東西。假設你告訴代理幫你訂一張1000美元的機票，但它卻訂錯了機票，浪費了你的錢，或者它做了很多錯誤的操作，這對你來說是不好的。
+
+因此，你希望代理能夠學習你的喜好，並且理解你的需求。這涉及到建立一個長期的用戶記憶系統，例如，隨著你與代理的互動越多，它應該能夠形成對你的記憶並利用這些信息來做決策。
+
+這種記憶可以有不同的形式。一種是明確的，你可以直接告訴它你的過敏情況、飛行偏好（如你喜歡靠窗座位還是過道座位）、你喜歡的菜餚等。另一種是隱性的，代理可以從你的行為中推斷出你的偏好。例如，也許你更喜歡阿迪達斯而不是耐克；或者在亞馬遜上，如果有10種不同的襯衫可供選擇，也許你會選擇某一特定類型和品牌的襯衫。
+
+還有很多隱性學習可以進行，這更多是基於反饋或比較。通過這些方式，代理可以逐漸了解你的偏好，從而更好地為你服務。
+### Challenges
+
+- Collecting user data & preferences: 
+    - actively asking for preferences
+    - passive learning from interactions
+
+- Learning from user preferences: supervised fine-tuning vs human-feedback
+
+- On-fly adaptation
+
+- Privacy
+
+在這裡有很多挑戰需要解決。例如，如何收集這些數據？如何形成記憶？如何學習？是否使用監督學習還是基於反饋的學習？如何即時學習？
+
+在執行這些任務的同時，如何保護用戶隱私？對於系統進行個性化，它需要了解大量關於你的信息。但是，如何確保在構建這樣的系統時，能夠保證這些信息的安全，不會侵犯你的隱私？
+
+這些問題都是在開發個性化代理系統時需要考慮的重要因素。找到平衡用戶體驗和隱私保護之間的最佳方法，是這個領域面臨的主要挑戰之一。
+
+## Agent-to-Agent Communication
+
+### Multi Agent Autonomous AI systems
+![Agents](./D442.png)
+一個有趣的領域是代理之間的通信。假設你有一個可以為你執行任務的代理，但為什麼不讓多個代理一起工作呢？
+
+如果我有一個代理，你也有一個代理，這些代理之間可以開始相互通信。我認為我們將開始看到這種多代理自主系統的現象，其中每個代理可以獨立執行任務，並且這些代理之間可以進行交流和協作。
+
+這種多代理系統的發展將非常有趣，因為它們能夠協同工作，完成更複雜的任務，並且可能帶來更多創新的應用場景。
+
+### Why Multi-agent Systems
+
+1. Parallelization unlock: Breaking a task into smaller chunks and dividing between agents to improve efficiency & speeds
+
+2. Task Specialization: An AI agent might seat between the user and each service: e.g. a spreadsheet AI agent, a slack AI agent, a web-browser AI agent, … 
+
+3. Challenges:
+    1. Agent to Agent Communication: one AI might want to exchange or request info from another AI agent finish a task
+
+為什麼要這樣做呢？有幾個原因：
+
+首先，如果你只有一個代理，它總是會很慢，因為它需要按順序執行所有任務。但如果你有多個代理系統，你就可以並行處理任務。例如，如果我有成千上萬的代理，它們可以同時為我做不同的事情，而不僅僅是依賴一個代理。
+
+其次，你可以擁有專業化的代理。例如，我可以有一個專門處理電子表格的代理，一個操作Slack的代理，還有一個操作網頁瀏覽器的代理。這樣我可以將不同的任務分配給不同的代理，這有助於提高效率。這就像在工廠裡，你有專門的工人，每個工人都在做他們專業的事情。這是人類歷史上發現的正確的任務分工方式，以獲得最大的性能。
+
+當然，這裡也有很多挑戰。最大的挑戰之一是如何交換信息。因為現在所有的事情都是通過自然語言進行的，而自然語言本身是有損的。因此，很容易出現溝通間隙。即使是人類之間的對話，也常常會出現大量的誤解，因為自然語言是模糊的。因此，我們需要更好的協議或更好的方法來解決這些問題。
+
+### Agent to Agent Communication
+
+- Exchanging info between fleets of agents
+- Hierarchies
+- Syncing primitives
+
+![Agent to Agent Communication](./D443.png)
+
+為了確保代理之間的通信不會引發錯誤或混亂，我們需要建立有效的協議和方法。此外，這也可以促進一些有趣的基礎設施的構建。
+
+舉個例子，我們可以設想一個經理代理，經理代理負責協調一群工人代理。這與人類組織非常相似。例如，作為用戶，我與一個主要的代理交流，但在幕後，這個代理會與它自己的工人代理溝通，確保每個工人完成任務。當所有任務完成後，經理代理會回來告訴我結果已經完成。
+
+這樣的系統可以構建許多這樣的基礎設施。可以將其類比為單核機器與多核機器的差異。當你只有一個代理時，就像擁有一個單核處理器的計算機；而如果有多個代理，就像擁有一個16核或64核的機器，許多任務可以分配給不同的代理，並行處理。
+
+這種多代理系統的類比非常有趣，因為它展示了如何在不同代理之間分配和協調任務，以提高效率和完成複雜的任務。這種系統的設計和實現將為未來的智能系統帶來更多可能性。
+
+- Robust communication protocols & Syncing primitives: Natural language is ambiguous, need mechanisms to reduce miscommunication!
+
+在這個領域還有許多工作需要完成，其中最大的挑戰之一就是通信問題非常困難。為了減少誤解，我們需要建立健全的通信協議。此外，可能還需要非常好的數據結構和標準化的通信方式。就像互聯網上使用HTTP來傳輸信息一樣，我們可能需要類似的協議來在不同代理之間傳輸信息。這些協議將有助於確保代理之間的通信是準確和一致的，從而實現有效的合作和任務分配。
+
+![Agent to Agent Communication2](./D444.png)
+您可以考慮一些基本的構件。假如我們有時間，我可以快速講解一個小例子來說明這些基本構件的應用和運作方式。
+![Agent to Agent Communication3](./D445.png)
+假設有一個經理代理希望完成一些任務，它向工人代理提供了一個計劃和上下文。工人代理則回應說：「好的，我完成了這個任務。」然後經理代理會收到一個回應，確認任務的完成。
+
+這個過程展示了經理代理如何協調和管理工人代理的任務。經理代理負責制定計劃並提供必要的信息，而工人代理則負責執行具體的任務，並將結果反饋給經理代理。這樣的結構可以確保各個代理之間的合作高效且有條理，並且能夠有效地完成複雜的任務。
+![Agent to Agent Communication4](./D446.png)
+然後，通常你需要驗證這個任務是否真的完成。因為有可能工人代理在回報時並沒有如實反映情況，可能任務失敗了或者出現了問題。因此，你需要進一步檢查和確認這個任務是否確實按照計劃完成。
+
+這一過程中，經理代理可能需要執行一些額外的檢查步驟，例如對比結果與期望，或進行一些測試，以確保任務的執行符合要求。這樣的驗證步驟對於維持系統的可靠性和精確性至關重要，可以防止潛在的錯誤和問題。
+![Agent to Agent Communication5](./D447.png)
+如果一切都完成了，那很好，你可以告訴用戶這個任務已經完成。但是，如果發現工人代理實際上沒有正確完成任務，或者出了什麼問題，那麼你需要重新進行該任務。
+
+在這種情況下，經理代理需要對出現的問題進行分析，找出失敗的原因，然後可能需要重新分配任務，確保問題得到解決並且任務正確完成。這種重新執行的過程有助於保證最終結果的質量，確保系統能夠可靠地完成用戶的需求。
+![Agent to Agent Communication6](./D448.png)
+確實，在這種代理系統中，建立故障切換機制至關重要。否則，可能會有許多事情出錯。因此，考慮這些同步原語和如何確保系統的可靠性以及後備機制變得非常重要。
+
+這些機制可以包括：
+1. **任務驗證**：在任務完成後，進行驗證以確保其正確性。
+2. **故障切換**：當檢測到任務失敗或錯誤時，自動重新分配任務或啟動備份流程。
+3. **錯誤處理**：對不同類型的錯誤進行分類和處理，確保有相應的解決方案。
+4. **反饋回路**：建立反饋機制，使代理能夠學習並改進，以避免將來發生相同的錯誤。
+
+這些措施有助於提高系統的穩定性和可靠性，確保代理系統能夠有效地處理各種情況，並且即使在發生錯誤時也能繼續運行。這樣的設計對於實現自動化和智能化的任務管理至關重要。
+![Agent to Agent Communication7](./D449.png)
+
+## Future Directions
+
+### Key Issues with Autonomous Agents
+
+![Key Issues with Autonomous Agents](./D450.png)
+未來還有許多方向需要探索，自主代理仍然存在很多問題。最大的問題是可靠性。這是因為模型本質上是隨機的，AI模型是概率性的函數，而不是完全確定性的。
+
+這導致的問題是，如果我想讓模型做某件事，有可能它會以一定的錯誤率做出意料之外的事情。因此，很難完全信任這些模型。如果我有傳統的代碼，我可以寫一個腳本，然後通過多個測試案例和單元測試來驗證它的可靠性。我知道，如果這些測試通過了，那麼這個腳本在100%的情況下都會正常運行，我可以將它部署給數百萬甚至數十億人使用。
+
+但是，對於自主代理，它是一個隨機函數。即使它的成功率是95%，還有5%的可能會失敗。目前沒有辦法完全解決這個問題。因此，如何解決這些問題成為了一個非常有趣的課題。
+
+同樣，我們還會遇到很多關於循環和計劃偏差的問題。當涉及到代理時，你需要進行多輪互動。你希望代理完成一個任務，然後利用這個結果去完成另一個任務，如此循環進行。這可能需要進行數百或數千步操作。但是，如果在第20步失敗，可能會導致系統出現混亂，不知道如何繼續後續的操作。因此，如何糾正這些問題，讓系統回到正軌，成為了一個有趣的問題。
+
+此外，如何測試和基準測試這些代理，特別是在它們要在現實世界中運行時？如何構建系統的可觀測性？例如，如果代理可能有權訪問我的銀行賬戶，為我執行操作，我怎麼知道它正在進行安全的操作？如何防止被黑客攻擊？如何建立信任？
+
+還有，我們如何建立人類的後備機制？例如，如果代理要為你進行購買，你可能希望有雙重身份驗證（2FA）來保障安全。或者你希望有一些方法來保證你的銀行賬戶不會因為代理的錯誤操作而清空。
+
+這些都是設計和運行自主代理時需要考慮的重要問題。
+
+### Plan Divergence
+![Plan Divergence](./D451.png)
+AI Agents like AutoGPT don’t know how to correct on making a mistake!
+
+這些是我們需要解決的一些問題，才能使代理真正應用於現實世界。以下是一個計劃偏差問題的例子，這個問題常見於代理中。比如，如果你讓代理去完成某件事，你通常期望它按照一條理想的路徑來達成目標。
+
+但是，有時它可能會偏離這條路徑。一旦偏離，它可能不知道該怎麼做，並且會不斷犯錯。這種情況在早期的代理中比較常見，比如AutoGPT。我不確定這個房間裡是否有人玩過AutoGPT，有人試過嗎？
+
+AutoGPT是一個很好的原型，但實際上它並不能完成任務，因為它會不停地犯錯，陷入循環，不斷出錯。這表明我們需要有非常好的方法來修正代理的錯誤，確保它在犯錯後能夠回到正軌，而不是隨意行事。
+
+這種問題顯示出，在開發和部署自主代理時，必須確保它們能夠處理錯誤並做出適當的糾正，以避免陷入無限錯誤的循環。
+
+### Karpathy - LLM OS
+
+![LLM OS](./D452.png)
+基於這個概念，Andrej Karpathy 提出了另一個很好的類比，他稱之為「LLM操作系統」。
+
+我們在討論LLMs（大型語言模型）和代理時，將其類比為構建計算機芯片和計算機。實際上，你可以這樣思考。這裡，計算機芯片就是LLM，而RAM（隨機存取記憶體）是你輸入模型的令牌的上下文長度。然後你有這個文件系統，相當於磁碟，用來存儲你的嵌入數據（embeddings）。你可以檢索這些嵌入數據。
+
+你還可能擁有傳統的軟件工具，例如計算器、Python解釋器、終端等。如果你學過操作系統課程，你會知道有一個叫做ALU（算術邏輯單元）的東西，它用來進行乘法、除法等複雜操作。這和這裡的概念非常相似，你需要工具來完成複雜的操作。
+
+此外，你還可能擁有外圍設備。你可能有不同的模態，比如音頻、視頻。你可能希望能夠連接到互聯網，因此你需要一些瀏覽功能。你也可能希望能夠與其他LLMs進行交流。
+
+這種方式展示了我們如何利用AI的創新來設計新一代的計算機。這樣的系統不僅包括傳統的計算能力，還包括自然語言處理和多模態數據處理的能力，從而實現更強大的功能和更廣泛的應用。
+
+### Building Generalized AI Systems
+
+![Building Generalized AI Systems](./D453.png)
+
+我想在此結束時描述一下我對未來的想像。你可以將其視為一個神經計算機，使用者通過聊天界面與系統互動。在背後，聊天界面有一個行動引擎，該引擎可以將任務分配給不同的代理，幫你完成任務，然後將結果返回給你。
+
+### Future needs for AI agents
+
+- Error correction mechanisms & better agent frameworks
+
+- Security & user permission models
+
+- Sandboxing & deployment in risky settings
+是的，總結一下，對於代理來說，還有許多工作需要完成。目前最大的問題之一是錯誤修正。當出現錯誤時該怎麼辦？如何防止這些錯誤在現實世界中引發問題？如何構建安全機制？如何設置用戶許可權？
+
+例如，如果有人試圖劫持你的電腦或代理該怎麼辦？如何建立強健的安全機制？此外，如何隔離這些代理？如何在風險場景中部署它們？特別是在金融或法律等高風險的場景中，你希望系統非常穩定和安全。
+
+這些問題至今仍未完全解決，但同時也為研究和應用提供了許多激動人心的思考空間。無論是在學術研究方面，還是在實際應用方面，這些都是非常有前景的探索方向。
