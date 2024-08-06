@@ -1,5 +1,18 @@
 Day06:～9 或許8？
 
+---------
+到時候刪掉
+
+D6-llm model 1 ,D7-llm engineer 1,D8-微專案進度-(醫療),D9-微專案進度-(code llm  插件),
+D10-llm model 2,D11-llm engineer 2,D12-微專案進度-(rpa llm) ,
+D13-llm model 3,D14-llm engineer 3,D15-微專案進度-(醫療),
+D16-llm model 4,D17-llm engineer 4,D18-微專案進度-(code llm  插件),
+D19-llm model 5,D20-llm engineer 5,D21-微專案進度-(rpa llm),
+D22-llm model 6,D23-llm engineer 6,D24-微專案進度-(醫療),
+D25-llm model 7,D26-llm engineer 7,D27-微專案進度-(code llm  插件),
+D28-llm model 8,D29-微專案進度-(rpa llm),D30-微專案進度-(全部專案完成紀錄跟總結)
+---------
+
 ### LLM 架構概論
 
 #### 1. **簡介**
