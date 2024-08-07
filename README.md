@@ -427,25 +427,119 @@ LLM通常基於Transformer架構，其中特別採用了僅使用解碼器的設
 ![roadmap_engineer](./img/LLM_App_Roadmap.png)
 ### 1. 運行 LLMs
 
-由於硬體要求高，運行大型語言模型可能會有困難。根據您的使用案例，您也可能只想通過API（如GPT-4）簡單地使用模型，或者在本地運行它。無論哪種情況，額外的提示和指導技術都可以改善或限制您的應用程序的輸出。
+### 運行 LLMs 的教學指南
 
-* **LLM APIs**: APIs是部署LLMs的便捷方式。這個領域分別有私有LLMs ([OpenAI](https://platform.openai.com/), [Google](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview), [Anthropic](https://docs.anthropic.com/claude/reference/getting-started-with-the-api), [Cohere](https://docs.cohere.com/docs), 等.) 和開源LLMs ([OpenRouter](https://openrouter.ai/), [Hugging Face](https://huggingface.co/inference-api), [Together AI](https://www.together.ai/), 等.).
-    * [Building Systems with the ChatGPT API](https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/): Deeplearning AI的短課程，有興趣或需要的可以嘗試看看。
-    * [How Business Thinkers Can Start Building AI Plugins With Semantic Kernel](https://www.deeplearning.ai/short-courses/microsoft-semantic-kernel/): Deeplearning AI的短課程，使用的是微軟的技術棧跟雲端，有興趣或需要的可以嘗試看看。
-    * [LangChain for LLM Application Development](https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/) : Deeplearning AI的短課程，這個比較偏入門級的，使用的是LangChain 的技術棧。
-    * [Functions, Tools and Agents with LangChain](https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/) : Deeplearning AI的短課程，這個稍微深入，使用的是LangChain 的技術棧，並能學會使用函數,代理Agent以集相關的工具。
+運行大型語言模型（LLMs）可能會因為硬體要求高而變得困難。根據您的使用案例，您可以選擇通過API（如GPT-4）使用模型，或者在本地運行它。以下是一步一步的指南，幫助您開始運行LLMs。
 
-* **開源 LLMs**: [Hugging Face Hub](https://huggingface.co/models) 是尋找LLMs的好地方。 您可以直接在 [Hugging Face Spaces](https://huggingface.co/spaces)中運行一些模型， 或者下載並在像 [LM Studio](https://lmstudio.ai/) 這樣的應用程序中本地運行以及通過CLI使用 [llama.cpp](https://github.com/ggerganov/llama.cpp) 或 [Ollama](https://ollama.ai/)。
-    * [Run an LLM locally with LM Studio](https://www.kdnuggets.com/run-an-llm-locally-with-lm-studio) by Nisha Arya: 關於如何使用LM Studio的簡短指南。
-    
-* **提示工程 Prompt engineering**: 常見技術包括零提示詞、少量提示詞、思維鏈與ReAct。它們在更大的模型上工作得更好，但也可以適應較小的模型。
-    * [Prompt engineering guide](https://www.promptingguide.ai/) by DAIR.AI: 帶有示例的提示技術的詳盡列表。
-    * [ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) : Deeplearning AI的短課程，這個比較偏入門級的。
+#### 步驟 1：使用 LLM APIs
 
-    
-* **結構化輸出 Structuring outputs**: 許多任務需要結構化的輸出，如嚴格的模板或JSON格式。像 [LMQL](https://lmql.ai/), [Outlines](https://github.com/outlines-dev/outlines), [Guidance](https://github.com/guidance-ai/guidance), 等庫可以用來指導生成並遵循給定的結構。
-    * [Outlines - Quickstart](https://outlines-dev.github.io/outlines/quickstart/): Outlines啟用的指導生成技術的列表。
-    * [LMQL - Overview](https://lmql.ai/docs/language/overview.html): 對LMQL語言的介紹。
+APIs 是部署 LLMs 的便捷方式。以下是如何使用一些常見的私有和開源 LLM APIs。
+
+1. **選擇 LLM API 提供商**
+    - 私有 LLMs 提供商包括 [OpenAI](https://platform.openai.com/)、[Google](https://cloud.google.com/vertex-ai/docs/generative-ai/learn/overview)、[Anthropic](https://docs.anthropic.com/claude/reference/getting-started-with-the-api) 和 [Cohere](https://docs.cohere.com/)。
+    - 開源 LLMs 提供商包括 [OpenRouter](https://openrouter.ai/)、[Hugging Face](https://huggingface.co/inference-api) 和 [Together AI](https://www.together.ai/)。
+
+2. **註冊並獲取 API Key**
+    - 訪問所選提供商的網站，註冊一個帳戶並獲取 API Key。
+    - 例如，註冊 OpenAI 的 API Key 可以訪問 [OpenAI 平台](https://platform.openai.com/)。
+
+3. **使用 API 進行請求**
+    - 使用所獲取的 API Key，在您的應用程序中集成 API。
+    - 例如，使用 OpenAI 的 API，可以參考以下 Python 代碼：
+      ```python
+      import openai
+
+      openai.api_key = 'your-api-key-here'
+
+      response = openai.Completion.create(
+          engine="text-davinci-003",
+          prompt="Hello, world!",
+          max_tokens=50
+      )
+
+      print(response.choices[0].text.strip())
+      ```
+4. **相關學習資源**
+    - [Building Systems with the ChatGPT API](https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/)
+    - [How Business Thinkers Can Start Building AI Plugins With Semantic Kernel](https://www.deeplearning.ai/short-courses/microsoft-semantic-kernel/)
+    - [LangChain for LLM Application Development](https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/)
+    - [Functions, Tools and Agents with LangChain](https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/)
+
+#### 步驟 2：運行開源 LLMs
+
+如果您希望在本地運行開源 LLMs，可以按照以下步驟進行。
+
+1. **選擇開源 LLM**
+    - 參考 [Hugging Face Hub](https://huggingface.co/models) 尋找適合您的開源 LLM。
+    - 可以在 [Hugging Face Spaces](https://huggingface.co/spaces) 直接運行一些模型，或者下載後本地運行。
+
+2. **使用 LM Studio 和同類型應用在本地運行模型**
+    - 安裝 [LM Studio](https://lmstudio.ai/)。
+    - 選擇一個模型並下載，然後使用 LM Studio 運行。
+    - 參考 [Run an LLM locally with LM Studio](https://www.kdnuggets.com/run-an-llm-locally-with-lm-studio) by Nisha Arya 的指南。
+
+    - 另一個選擇是 AnythingLLM : [相關教學](https://hackmd.io/@chrish0729/Hkgggr9WC?utm_source=preview-mode&utm_medium=rec)
+
+    - [推薦]適合搭配 python, RAG 開發的 Ollama : [相關教學](https://medium.com/@simon3458/ollama-llm-model-as-a-service-introduction-d849fb6d9ced)
+3. **使用 Hugging Face 的 Transformer**
+    - 安裝 `transformers` 庫：
+      ```bash
+      pip install transformers
+      ```
+    - 使用以下代碼加載並運行模型：
+      ```python
+      from transformers import pipeline
+
+      generator = pipeline('text-generation', model='gpt2')
+      response = generator("Hello, world!", max_length=50)
+
+      print(response[0]['generated_text'])
+      ```
+
+#### 步驟 3：提示工程（Prompt Engineering）
+
+優化提示可以大大改善 LLM 的輸出效果。以下是一些常見的提示工程技術。
+
+1. **零提示詞（Zero-shot）**
+    - 直接向模型提出問題或指令，無需示例。
+    - 例如：
+      ```python
+      prompt = "What is the capital of France?"
+      ```
+
+2. **少量提示詞（Few-shot）**
+    - 提供一些示例，以幫助模型理解您的需求。
+    - 例如：
+      ```python
+      prompt = "Translate the following English sentences to French:\n\n1. Hello, how are you? -> Bonjour, comment ça va?\n2. What is your name? -> Comment tu t'appelles?\n3. Where is the nearest restaurant? -> Où est le restaurant le plus proche?\n4. How much does this cost? -> Combien ça coûte?"
+      ```
+
+3. **思維鏈（Chain of Thought）與 ReAct**
+    - 使用逐步思考的方式，引導模型逐步解決問題。
+    - 例如：
+      ```python
+      prompt = "First, let's consider the problem step by step. What is 5 plus 3? Then, what is the result multiplied by 2?"
+      ```
+
+4. **相關學習資源**
+    - [Prompt engineering guide](https://www.promptingguide.ai/) by DAIR.AI
+    - [ChatGPT Prompt Engineering for Developers](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/)
+
+#### 步驟 4：結構化輸出（Structuring Outputs）
+
+許多任務需要結構化的輸出，如嚴格的模板或JSON格式。以下是一些工具和方法。
+
+1. **使用 LMQL 指導生成**
+    - 安裝並使用 LMQL 庫來指導生成符合結構的輸出。
+    - 參考 [LMQL - Overview](https://lmql.ai/docs/language/overview.html) 的介紹。
+
+2. **使用 Outlines 庫**
+    - 安裝並使用 Outlines 庫來生成結構化輸出。
+    - 參考 [Outlines - Quickstart](https://outlines-dev.github.io/outlines/quickstart/) 的快速入門指南。
+
+3. **相關學習資源**
+    - [Post-processing LLM Outputs](https://towardsdatascience.com/structuring-outputs-from-language-models-5d4b820bb5b4)
+
 ---
 
 </details>
