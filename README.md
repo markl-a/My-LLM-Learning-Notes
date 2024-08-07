@@ -359,8 +359,6 @@ LLM通常基於Transformer架構，其中特別採用了僅使用解碼器的設
 
 #### 7. **其他的模型架構或方法**
 
-</br>
-
 ##### 7.1 **新的位置嵌入 Positional embeddings相關方法**: 
 
 在了解原始 transformer 的 Positional embeddings方法後，就可看下不同的方法，像是[RoPE](https://arxiv.org/abs/2104.09864) 這樣的相對位置編碼方案。或實現 [YaRN](https://arxiv.org/abs/2309.00071) (通過溫度因子乘以注意力矩陣) 跟 [ALiBi](https://arxiv.org/abs/2108.12409) (基於token距離的注意力獎懲) 來擴展上下文長度。
