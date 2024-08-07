@@ -282,9 +282,11 @@ NLP 是人工智慧的一個令人著迷的分支，它彌合了人類語言和�
 #### 1. **簡介**
 大型語言模型（LLM）在自然語言處理（NLP）領域取得了顯著的進步。這些模型大多基於Transformer架構，特別是解碼器部分，如GPT模型系列。理解LLM的基本輸入（tokens 令牌）和輸出（logits）以及注意力機制對於掌握LLM的工作原理至關重要。
 
-詳細的LLM簡介可參照我翻譯的：[Stanford CS25-Apr 2024: V4 I Overview of Transformers - Transformers and LLMs: An Introduction(上)](https://ithelp.ithome.com.tw/articles/10343567)
+詳細的LLM簡介可參照我翻譯的：
 
-[Stanford CS25-Apr 2024: V4 I Overview of Transformers - Transformers and LLMs: An Introduction(下)](https://ithelp.ithome.com.tw/articles/10343633)
+1. [Stanford CS25-Apr 2024: V4 I Overview of Transformers - Transformers and LLMs: An Introduction(上)](https://ithelp.ithome.com.tw/articles/10343567)
+
+2. [Stanford CS25-Apr 2024: V4 I Overview of Transformers - Transformers and LLMs: An Introduction(下)](https://ithelp.ithome.com.tw/articles/10343633)
 
 看完上面的連結對目前大模型的狀況變可以了解一二。
 
