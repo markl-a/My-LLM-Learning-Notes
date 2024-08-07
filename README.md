@@ -371,11 +371,17 @@ LLM通常基於Transformer架構，其中特別採用了僅使用解碼器的設
   
 ##### 7.2 **Mamba ,RWKV , TTT等新模型**:
 
+說是新模型其實提出也有一段時間了，我感覺我問了Chat-gpt, Gemini, Claude 有哪些2024或2023新提出的大模型架構還比我自己找的文章速度要快，所以有興趣的自己去問問就好。
+
 - Mamba 介紹：[一文讀懂Mamba：具有選擇狀態空間的線性時間序列建模](https://zhuanlan.zhihu.com/p/680846351)
 
 - RWKV 介紹:[RWKV 模型解析](https://zhuanlan.zhihu.com/p/640050680)
 
 - TTT 介紹:[Test-Time Training on Graphs with Large Language Models (LLMs)](https://arxiv.org/pdf/2404.13571)
+
+- [REALM: Integrating Retrieval into Language Representation Models](https://research.google/blog/realm-integrating-retrieval-into-language-representation-models/):結合了 Transformer 和外部記憶體，能夠存儲和檢索知識，提高模型在知識密集型任務上的表現。
+
+- [RETRO](https://www.jiqizhixin.com/articles/2022-01-04-8): DeepMind 提出的模型，使用檢索器從大型資料庫中獲取資訊，增強模型的知識和事實準確性。
 
 
 
