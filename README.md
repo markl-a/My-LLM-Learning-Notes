@@ -275,7 +275,7 @@ NLP 是人工智慧的一個令人著迷的分支，它彌合了人類語言和�
 <details>
 <summary>點擊以打開詳細內容</summary>
 
-![roadmap_scientist](./img/LLM Model Roadmap.png)
+![roadmap_scientist](./img/LLM_Model_Roadmap.png)
 ---
 ### LLM 簡介與架構
 
