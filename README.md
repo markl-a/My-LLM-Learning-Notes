@@ -696,6 +696,7 @@ APIs 是部署 LLMs 的便捷方式。以下是如何使用一些常見的私有
     - 另一個選擇是 AnythingLLM : [相關教學](https://hackmd.io/@chrish0729/Hkgggr9WC?utm_source=preview-mode&utm_medium=rec)
 
     - [推薦]適合搭配 python, RAG 開發的 Ollama : [相關教學](https://medium.com/@simon3458/ollama-llm-model-as-a-service-introduction-d849fb6d9ced)
+    - 可以跟上面那個一樣使用CLI 操作的 [llama.cpp](https://github.com/ggerganov/llama.cpp)
 3. **使用 Hugging Face 的 Transformer**
     - 安裝 `transformers` 庫：
       ```bash
