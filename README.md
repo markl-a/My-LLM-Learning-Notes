@@ -2,12 +2,12 @@
 
 ## TODO
 
- - [ ] 30天的鐵人賽更新
- - [ ] Deeplearning.ai 短課程的學習紀錄
+ - [ ] 30天的鐵人賽更新(10/30)
  - [ ] 醫療助手
  - [ ] Code 助手
  - [ ] RPA + LLM
- - [ ] 每個區塊的 mini project 
+ - [ ] 每個區塊的 mini project 以及更新
+ - [ ] Deeplearning.ai 短課程的學習紀錄
 
 # 目錄
 
