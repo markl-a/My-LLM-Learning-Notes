@@ -1,4 +1,11 @@
 # 我的 AI工程師相關筆記
+## 相關的框架以及算法學習
+1. [python快入入門](https://github.com/markl-a/My-AI-Engineer-s-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/1.AI%2CML/1.%E5%BF%AB%E9%80%9F%E5%85%A5%E9%96%80python.ipynb)
+2. [numpy,pandas學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/1.AI%2CML/2.Python%E7%9A%84%EF%BC%AD%EF%BC%AC%E7%9B%B8%E9%97%9C%E6%A8%A1%E5%A1%8A%E5%A5%97%E4%BB%B6%E4%BD%BF%E7%94%A8.ipynb)
+3. [tensorflow 學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/01.DL-Tensorflow2)
+4. [keras 學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/02.DL-Keras3/1.ANN/ANN.ipynb)
+4. [pytorch 學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/03.DL-Pytorch)
+
 
 ## TODO
 
