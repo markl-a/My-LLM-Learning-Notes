@@ -9,16 +9,6 @@
 7. [galore的嘗試以及medical chat(這個版本還有很多要修改)](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/2.%E6%B7%B1%E5%85%A5LLM%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E8%88%87LLM%E9%81%8B%E7%B6%AD)
 8. [langchain 相關的學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/3.LLM%E6%87%89%E7%94%A8%E5%B7%A5%E7%A8%8B/1.LangchainDemos)
 
-
-## TODO
-
- - [ ] 30天的鐵人賽更新(10/30)
- - [ ] 醫療助手
- - [ ] Code 助手
- - [ ] RPA + LLM
- - [ ] 每個區塊的 mini project 以及更新
- - [ ] Deeplearning.ai 短課程的學習紀錄
-
 # 目錄
 
 - [簡介](#簡介)
