@@ -8,14 +8,14 @@ AI研發工程師
 3.相關技術調查研究
 4.其他主管交辦事項
 條件:
-擅長Python，PyTorch，Git，LLM，RAG
+擅長Python，PyTorch，Git，LLM，RAG 4cus2TheWork2OutrunThem!
 需問題解決能力良好、自主學習能力良好、數理能力強、英文閱讀能力
 
 擅長工具:
 Python、PyTorch、LLM
 請幫我準備一小時的模擬面試：
 請先給我大綱
-
+r
 好的，以下是針對「AI 研發工程師」職位的一小時模擬面試大綱：
 
 ### 一、面試開場（5分鐘）
