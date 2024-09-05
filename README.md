@@ -9,6 +9,7 @@
 6. [yolo 使用](https://github.com/markl-a/My-AI-Engineer-s-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/04.CV-Ultralytics/1.yolo8%E7%89%A9%E4%BB%B6%E5%81%B5%E6%B8%AC/1.train/how_to_auto_train_yolov8_model_with_autodistill%E4%BF%AE%E6%94%B9%E7%89%88.ipynb)
 7. [galore的嘗試以及medical chat(這個版本還有很多要修改)](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/2.%E6%B7%B1%E5%85%A5LLM%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E8%88%87LLM%E9%81%8B%E7%B6%AD)
 8. [langchain 相關的學習紀錄](https://github.com/markl-a/My-AI-Engineer-s-Notes/tree/main/3.LLM%E6%87%89%E7%94%A8%E5%B7%A5%E7%A8%8B/1.LangchainDemos)
+9. [MLflow 入門介紹](https://github.com/markl-a/My-AI-Learning-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/05.MLOPS-MLFlow/MLFLOW%E5%85%A5%E9%96%80%E4%BB%8B%E7%B4%B9%EF%BC%9A%E9%80%9A%E9%81%8ECOLAB%2C%20NGROK%2C%20PYCARET.ipynb)
 
 # 目錄
 
