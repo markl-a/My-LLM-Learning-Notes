@@ -12,6 +12,7 @@
 9. [MLflow 入門介紹](https://github.com/markl-a/My-AI-Learning-Notes/blob/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/05.MLOPS-MLFlow/MLFLOW%E5%85%A5%E9%96%80%E4%BB%8B%E7%B4%B9%EF%BC%9A%E9%80%9A%E9%81%8ECOLAB%2C%20NGROK%2C%20PYCARET.ipynb)
 10. [視訊品質評估相關論文閱讀與復現](https://github.com/markl-a/My-AI-Learning-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/04.CV/Exploring%20Video%20Quality%20Assessment%20on%20User%20Generated%20Contents%20from%20Aesthetic%20and%20Technical%20Perspectives)
 11. [Segment Anything 2 論文解讀與範例使用](https://github.com/markl-a/My-AI-Learning-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/03.DL-Pytorch/3.Segment%20Anything%202)
+12. [langchain 多模態 RAG 的範例修改](https://github.com/markl-a/LLM-agent-Demo/tree/main/2.Multi_modal_RAG)
 
 # 目錄
 
