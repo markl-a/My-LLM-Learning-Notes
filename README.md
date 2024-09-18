@@ -13,8 +13,7 @@
 10. [視訊品質評估相關論文閱讀與復現](https://github.com/markl-a/My-AI-Learning-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/04.CV/Exploring%20Video%20Quality%20Assessment%20on%20User%20Generated%20Contents%20from%20Aesthetic%20and%20Technical%20Perspectives)
 11. [Segment Anything 2 論文解讀與範例使用](https://github.com/markl-a/My-AI-Learning-Notes/tree/main/1.%E5%BE%9EAI%E5%88%B0LLM%E5%9F%BA%E7%A4%8E/2.DL%2CMLOps/03.DL-Pytorch/3.Segment%20Anything%202)
 12. [langchain 多模態 RAG 的範例修改](https://github.com/markl-a/LLM-agent-Demo/tree/main/2.Multi_modal_RAG)
-13. (未完工) metahuman-stream 導入
-14. (未完工) [VideoLLM-online: Online Large Language Model for Streaming Video 與數字人項目結合使用嘗試]
+
 
 # 目錄
 
