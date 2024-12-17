@@ -1,3 +1,5 @@
+Exploring Video Quality Assessment on User Generated Contents from Aesthetic and Technical Perspectives
+內容簡介:
 這篇內容簡介推薦跟原文一起閱讀以便加深理解： https://arxiv.org/pdf/2211.04894v3
 
 這篇論文的大綱如下：
