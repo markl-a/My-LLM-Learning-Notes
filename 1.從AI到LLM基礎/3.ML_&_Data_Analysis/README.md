@@ -36,7 +36,3 @@
 - **Version_Control_and_Experiment_Tracking.md**：DVC、MLflow、Git 等工具簡介
 - **Scalability_and_Performance_Tuning.md**：模型與數據的效能調校方法
 
-### 6_References_and_Resources
-- **Textbook_References.md**：推薦的機器學習、統計、分散式運算書籍
-- **Online_Resources.md**：Kaggle、Coursera、YouTube 頻道、官方文件連結
-- **Glossary.md**：重要術語與縮寫整理
