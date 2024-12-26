@@ -1,6 +1,6 @@
 ## DL/Dive into Deep learing 個人複習筆記
 
-以下章節程式碼的部分會以 pytorch 以及 tensorflow 2 為主
+以下章節程式碼的部分會以 pytorch 為主
 
 ### 1_引言
 
